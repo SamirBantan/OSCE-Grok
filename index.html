@@ -1,0 +1,3180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Internal Medicine OSCE Practice Suite</title>
+  <style>
+    :root {
+      --navy: #0a2540;
+      --navy-light: #143d66;
+      --gold: #c9a227;
+      --gold-light: #e8c547;
+      --cream: #f8f5f0;
+      --white: #ffffff;
+      --text: #1a1a1a;
+      --muted: #5a6a7a;
+      --success: #1a7a4c;
+      --danger: #b33a3a;
+      --card-shadow: 0 8px 30px rgba(10, 37, 64, 0.12);
+      --radius: 12px;
+      --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ========== HEADER ========== */
+    .academic-header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      color: var(--white);
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo-circle {
+      width: 52px;
+      height: 52px;
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+
+    .header-titles h1 {
+      font-size: 1.35rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .header-titles p {
+      font-size: 0.85rem;
+      opacity: 0.85;
+      color: var(--gold-light);
+    }
+
+    .nav-pills {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: var(--white);
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .nav-btn:hover, .nav-btn.active {
+      background: var(--gold);
+      color: var(--navy);
+      border-color: var(--gold);
+    }
+
+    /* ========== VIEWS ========== */
+    .view {
+      display: none;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity var(--transition), transform var(--transition);
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .view.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========== FRONT PAGE ========== */
+    .hero {
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--navy);
+      color: var(--gold);
+      padding: 0.35rem 1.2rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero h2 {
+      font-size: 2.4rem;
+      color: var(--navy);
+      margin-bottom: 0.8rem;
+      font-weight: 700;
+    }
+
+    .hero .subtitle {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 680px;
+      margin: 0 auto 2rem;
+    }
+
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .stat-card {
+      background: var(--white);
+      padding: 1.2rem 1.8rem;
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+      text-align: center;
+      min-width: 140px;
+    }
+
+    .stat-card .num {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .stat-card .label {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.75rem 1.8rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background: var(--navy-light);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(10,37,64,0.3);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .btn-gold:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--navy);
+      color: var(--navy);
+    }
+
+    .btn-outline:hover {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .btn-sm {
+      padding: 0.45rem 1rem;
+      font-size: 0.9rem;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    /* Instructions cards */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .info-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--card-shadow);
+      border-top: 4px solid var(--gold);
+    }
+
+    .info-card h3 {
+      color: var(--navy);
+      margin-bottom: 0.6rem;
+      font-size: 1.1rem;
+    }
+
+    .info-card p, .info-card ul {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .info-card ul {
+      padding-left: 1.2rem;
+      margin-top: 0.4rem;
+    }
+
+    /* ========== CASES GRID ========== */
+    .section-title {
+      color: var(--navy);
+      font-size: 1.8rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      margin-bottom: 1.8rem;
+    }
+
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .case-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      box-shadow: var(--card-shadow);
+      cursor: pointer;
+      transition: var(--transition);
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .case-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+      box-shadow: 0 12px 35px rgba(10,37,64,0.15);
+    }
+
+    .case-card.completed {
+      border-color: var(--success);
+    }
+
+    .case-card.completed::after {
+      content: "✓";
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      background: var(--success);
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+    }
+
+    .case-num {
+      font-size: 0.75rem;
+      color: var(--gold);
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .case-card h3 {
+      color: var(--navy);
+      font-size: 1.1rem;
+      margin: 0.3rem 0 0.5rem;
+    }
+
+    .case-meta {
+      font-size: 0.85rem;
+      color: var(--muted);
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      background: #eef2f7;
+      padding: 0.15rem 0.55rem;
+      border-radius: 4px;
+      font-size: 0.78rem;
+    }
+
+    /* ========== CASE PLAYER ========== */
+    .case-header-bar {
+      background: var(--navy);
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: var(--radius) var(--radius) 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .case-player {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+    }
+
+    /* OSCE Timer */
+    .timer-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .osce-timer {
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: 1px;
+      padding: 0.35rem 0.9rem;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.12);
+      border: 2px solid rgba(255,255,255,0.35);
+      min-width: 88px;
+      text-align: center;
+      transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .osce-timer.ok {
+      background: rgba(26, 122, 76, 0.35);
+      border-color: #3ecf8e;
+      color: #b8f5d4;
+    }
+
+    .osce-timer.warn {
+      background: rgba(201, 162, 39, 0.45);
+      border-color: var(--gold);
+      color: #ffe9a0;
+      box-shadow: 0 0 12px rgba(201, 162, 39, 0.5);
+    }
+
+    .osce-timer.urgent {
+      background: rgba(220, 100, 30, 0.5);
+      border-color: #ff9a3c;
+      color: #ffd4a8;
+      box-shadow: 0 0 14px rgba(255, 140, 40, 0.6);
+      animation: pulse-urgent 1s ease-in-out infinite;
+    }
+
+    .osce-timer.critical {
+      background: rgba(179, 58, 58, 0.65);
+      border-color: #ff5c5c;
+      color: #ffc9c9;
+      box-shadow: 0 0 18px rgba(255, 60, 60, 0.7);
+      animation: pulse-critical 0.6s ease-in-out infinite;
+    }
+
+    .osce-timer.expired {
+      background: #7a1a1a;
+      border-color: #ff3030;
+      color: #fff;
+      animation: none;
+    }
+
+    @keyframes pulse-urgent {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+
+    @keyframes pulse-critical {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.06); opacity: 0.85; }
+    }
+
+    .timer-label {
+      font-size: 0.75rem;
+      opacity: 0.85;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .station-brief {
+      background: #f0f4f8;
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid #dce3eb;
+      font-size: 0.95rem;
+    }
+
+    .station-brief strong {
+      color: var(--navy);
+    }
+
+    /* ========== VERBAL / VOICE UI ========== */
+    .voice-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      align-items: center;
+      padding: 0.85rem 1.5rem;
+      background: #e8eef5;
+      border-bottom: 1px solid #d0dae6;
+    }
+
+    .voice-bar .btn-voice {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-speak {
+      background: var(--navy);
+      color: white;
+    }
+    .btn-speak:hover { background: var(--navy-light); }
+    .btn-speak.speaking {
+      background: #1a5a9a;
+      animation: pulse-speak 1.2s ease-in-out infinite;
+    }
+
+    .btn-mic {
+      background: #2a7a5a;
+      color: white;
+    }
+    .btn-mic:hover { background: #1f6348; }
+    .btn-mic.listening {
+      background: #c0392b;
+      animation: pulse-mic 0.9s ease-in-out infinite;
+    }
+
+    .btn-stop-voice {
+      background: #6c757d;
+      color: white;
+    }
+
+    @keyframes pulse-speak {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(10,37,64,0.4); }
+      50% { box-shadow: 0 0 0 8px rgba(10,37,64,0); }
+    }
+    @keyframes pulse-mic {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(192,57,43,0.5); }
+      50% { box-shadow: 0 0 0 10px rgba(192,57,43,0); }
+    }
+
+    .mic-status {
+      font-size: 0.82rem;
+      color: var(--muted);
+      min-width: 120px;
+    }
+    .mic-status.active { color: #c0392b; font-weight: 600; }
+
+    .transcript-panel {
+      margin-top: 1rem;
+      padding: 1rem 1.15rem;
+      background: #f7f9fc;
+      border: 1px solid #d0dae6;
+      border-radius: 8px;
+      display: none;
+    }
+    .transcript-panel.show { display: block; animation: fadeIn 0.35s ease; }
+
+    .transcript-panel h4 {
+      font-size: 0.85rem;
+      color: var(--navy);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .transcript-text {
+      font-size: 1rem;
+      line-height: 1.5;
+      min-height: 1.5em;
+      color: var(--text);
+    }
+    .transcript-text.interim { color: var(--muted); font-style: italic; }
+
+    .voice-score {
+      margin-top: 0.75rem;
+      padding: 0.7rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      display: none;
+    }
+    .voice-score.show { display: block; }
+    .voice-score.good { background: #e6f5ed; border: 1px solid #a8d5bc; }
+    .voice-score.partial { background: #fff8e6; border: 1px solid #f0d78c; }
+    .voice-score.poor { background: #fceaea; border: 1px solid #e8b0b0; }
+
+    .voice-support-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-left: auto;
+    }
+
+    .step-indicator {
+      display: flex;
+      gap: 0.4rem;
+      padding: 1rem 1.5rem 0;
+      flex-wrap: wrap;
+    }
+
+    .step-dot {
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      background: #e8eef4;
+      color: var(--muted);
+      cursor: default;
+    }
+
+    .step-dot.active {
+      background: var(--navy);
+      color: white;
+    }
+
+    .step-dot.done {
+      background: var(--success);
+      color: white;
+    }
+
+    .case-body {
+      padding: 1.5rem;
+      min-height: 320px;
+    }
+
+    .scenario-box {
+      background: #faf8f4;
+      border-left: 4px solid var(--gold);
+      padding: 1rem 1.2rem;
+      margin-bottom: 1.5rem;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .option-btn {
+      text-align: left;
+      padding: 0.85rem 1.1rem;
+      background: #f5f7fa;
+      border: 2px solid #e0e6ed;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.95rem;
+    }
+
+    .option-btn:hover {
+      border-color: var(--navy);
+      background: #eef3f9;
+    }
+
+    .option-btn.selected {
+      border-color: var(--navy);
+      background: #e3edf7;
+    }
+
+    .option-btn.correct {
+      border-color: var(--success);
+      background: #e6f5ed;
+    }
+
+    .option-btn.incorrect {
+      border-color: var(--danger);
+      background: #fceaea;
+    }
+
+    .feedback-box {
+      margin-top: 1.2rem;
+      padding: 1rem 1.2rem;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .feedback-box.show {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .feedback-box.good {
+      background: #e6f5ed;
+      border: 1px solid #a8d5bc;
+    }
+
+    .feedback-box.partial {
+      background: #fff8e6;
+      border: 1px solid #f0d78c;
+    }
+
+    .feedback-box.bad {
+      background: #fceaea;
+      border: 1px solid #e8b0b0;
+    }
+
+    .case-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid #e8eef4;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    /* ========== FLASHCARDS ========== */
+    .flash-controls {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .flash-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .flashcard {
+      perspective: 1000px;
+      height: 220px;
+      cursor: pointer;
+    }
+
+    .flash-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+
+    .flashcard.flipped .flash-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flash-front, .flash-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: var(--card-shadow);
+    }
+
+    .flash-front {
+      background: var(--navy);
+      color: white;
+    }
+
+    .flash-back {
+      background: var(--white);
+      color: var(--text);
+      transform: rotateY(180deg);
+      border: 2px solid var(--gold);
+      overflow-y: auto;
+    }
+
+    .flash-front .category {
+      font-size: 0.75rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    .flash-front h4 {
+      font-size: 1.15rem;
+    }
+
+    .flash-back h4 {
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .flash-back p, .flash-back ul {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .flash-back ul {
+      padding-left: 1.1rem;
+    }
+
+    /* ========== TIPS / PROGRESS ========== */
+    .tips-list {
+      list-style: none;
+    }
+
+    .tips-list li {
+      background: var(--white);
+      padding: 1rem 1.3rem;
+      border-radius: 8px;
+      margin-bottom: 0.8rem;
+      box-shadow: var(--card-shadow);
+      border-left: 4px solid var(--gold);
+    }
+
+    .progress-bar-bg {
+      background: #e0e6ed;
+      height: 12px;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 1rem 0 2rem;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--navy), var(--gold));
+      border-radius: 999px;
+      transition: width 0.5s ease;
+      width: 0%;
+    }
+
+    /* ========== UTILITIES ========== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hidden { display: none !important; }
+
+    .text-center { text-align: center; }
+
+    .mt-1 { margin-top: 0.5rem; }
+    .mt-2 { margin-top: 1rem; }
+    .mb-2 { margin-bottom: 1rem; }
+
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .badge-navy { background: var(--navy); color: white; }
+    .badge-gold { background: var(--gold); color: var(--navy); }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 3rem;
+      border-top: 1px solid #e0e6ed;
+    }
+
+    @media (max-width: 600px) {
+      .hero h2 { font-size: 1.7rem; }
+      .view { padding: 1.2rem; }
+      .academic-header { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="academic-header">
+    <div class="logo-area">
+      <div class="logo-circle">IM</div>
+      <div class="header-titles">
+        <h1>Internal Medicine OSCE Practice Suite</h1>
+        <p>Interactive Clinical Skills Laboratory</p>
+      </div>
+    </div>
+    <nav class="nav-pills">
+      <button class="nav-btn active" data-view="home">Home</button>
+      <button class="nav-btn" data-view="cases">Cases (20)</button>
+      <button class="nav-btn" data-view="flashcards">Flashcards</button>
+      <button class="nav-btn" data-view="tips">OSCE Tips</button>
+      <button class="nav-btn" data-view="progress">Progress</button>
+    </nav>
+  </header>
+
+  <!-- ========== HOME VIEW ========== -->
+  <section id="home" class="view active">
+    <div class="hero">
+      <div class="hero-badge">Academic Clinical Skills Resource</div>
+      <h2>Master the Internal Medicine OSCE</h2>
+      <p class="subtitle">
+        Practice under realistic examination conditions. Twenty high-yield stations covering history, examination, differentials, investigations and management — built for medical students and junior doctors.
+      </p>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="num">20</div>
+          <div class="label">Clinical Cases</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">40+</div>
+          <div class="label">Flashcards</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">5</div>
+          <div class="label">Steps per Station</div>
+        </div>
+        <div class="stat-card">
+          <div class="num" id="home-completed">0</div>
+          <div class="label">Completed</div>
+        </div>
+      </div>
+      <div class="cta-row">
+        <button class="btn btn-primary" onclick="showView('cases')">Enter Cases →</button>
+        <button class="btn btn-gold" onclick="showView('flashcards')">Study Flashcards</button>
+        <button class="btn btn-outline" onclick="showView('tips')">OSCE Strategy</button>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>How to Use This Tool</h3>
+        <ul>
+          <li>Select a case from the Cases grid</li>
+          <li>Read the station brief carefully</li>
+          <li>Work through History → Examination → Investigations → Diagnosis → Management</li>
+          <li>Compare your choices with model answers and feedback</li>
+          <li>Review key points with Flashcards</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Station Structure</h3>
+        <p>Each case simulates a timed OSCE station. You are the candidate. Select the most relevant actions and answers as you would in a real examination.</p>
+      </div>
+      <div class="info-card">
+        <h3>Learning Objectives</h3>
+        <ul>
+          <li>Structured history taking</li>
+          <li>Focused physical examination</li>
+          <li>Formulating differentials</li>
+          <li>Appropriate investigations</li>
+          <li>Safe initial management</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Academic Note</h3>
+        <p>This is a self-directed learning resource. Content is aligned with common undergraduate and early postgraduate Internal Medicine OSCE blueprints. Always cross-reference with your local curriculum and current guidelines.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CASES VIEW ========== -->
+  <section id="cases" class="view">
+    <h2 class="section-title">OSCE Case Stations</h2>
+    <p class="section-desc">Select a station to begin. Completed cases are marked with a green check.</p>
+    <div class="cases-grid" id="cases-grid"></div>
+  </section>
+
+  <!-- ========== CASE PLAYER VIEW ========== -->
+  <section id="player" class="view">
+    <div class="case-player">
+      <div class="case-header-bar">
+        <div>
+          <span class="badge badge-gold" id="player-num">Case 1</span>
+          <strong id="player-title" style="margin-left:0.6rem;">Title</strong>
+        </div>
+        <div class="timer-wrap">
+          <div>
+            <div class="timer-label">Station timer</div>
+            <div class="osce-timer ok" id="osce-timer">08:00</div>
+          </div>
+          <button class="btn btn-sm btn-outline" style="border-color:white;color:white;" onclick="leaveCase()">← All Cases</button>
+        </div>
+      </div>
+      <div class="station-brief" id="station-brief"></div>
+
+      <!-- Verbal interaction bar -->
+      <div class="voice-bar" id="voice-bar">
+        <button class="btn-voice btn-speak" id="btn-speak-brief" onclick="speakBrief()" title="Examiner reads station brief">🔊 Examiner: Brief</button>
+        <button class="btn-voice btn-speak" id="btn-speak-scenario" onclick="speakScenario()" title="Examiner reads clinical scenario">🔊 Scenario</button>
+        <button class="btn-voice btn-speak" id="btn-speak-question" onclick="speakQuestion()" title="Examiner reads current question">🔊 Question</button>
+        <button class="btn-voice btn-mic" id="btn-mic" onclick="toggleMic()" title="Speak your answer">🎤 Speak answer</button>
+        <button class="btn-voice btn-stop-voice" id="btn-stop-voice" onclick="stopAllVoice()" title="Stop speaking / listening">⏹ Stop</button>
+        <span class="mic-status" id="mic-status">Mic ready</span>
+        <span class="voice-support-note" id="voice-support-note"></span>
+      </div>
+
+      <div class="step-indicator" id="step-indicator"></div>
+      <div class="case-body" id="case-body"></div>
+      <div class="case-footer">
+        <button class="btn btn-outline btn-sm" id="btn-prev" onclick="prevStep()">← Previous</button>
+        <span id="step-label" style="color:var(--muted);font-size:0.9rem;"></span>
+        <button class="btn btn-primary btn-sm" id="btn-next" onclick="nextStep()">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FLASHCARDS VIEW ========== -->
+  <section id="flashcards" class="view">
+    <h2 class="section-title">Clinical Flashcards</h2>
+    <p class="section-desc">Click any card to flip. Filter by category or shuffle.</p>
+    <div class="flash-controls">
+      <button class="btn btn-sm btn-outline" onclick="filterFlash('all')">All</button>
+      <button class="btn btn-sm btn-outline" onclick="filterFlash('cardio')">Cardiology</button>
+      <button class="btn btn-sm btn-outline" onclick="filterFlash('resp')">Respiratory</button>
+      <button class="btn btn-sm btn-outline" onclick="filterFlash('gi')">Gastroenterology</button>
+      <button class="btn btn-sm btn-outline" onclick="filterFlash('endo')">Endocrine</button>
+      <button class="btn btn-sm btn-outline" onclick="filterFlash('neuro')">Neurology</button>
+      <button class="btn btn-sm btn-outline" onclick="filterFlash('renal')">Renal</button>
+      <button class="btn btn-sm btn-outline" onclick="filterFlash('general')">General / OSCE</button>
+      <button class="btn btn-sm btn-gold" onclick="shuffleFlash()">Shuffle</button>
+    </div>
+    <div class="flash-grid" id="flash-grid"></div>
+  </section>
+
+  <!-- ========== TIPS VIEW ========== -->
+  <section id="tips" class="view">
+    <h2 class="section-title">OSCE Strategy &amp; Tips</h2>
+    <p class="section-desc">High-yield advice for performing under examination conditions.</p>
+    <ul class="tips-list">
+      <li><strong>Before you enter:</strong> Read the station brief twice. Note the exact task (history only, examination, full assessment, counselling) and the time limit.</li>
+      <li><strong>Opening (WIPE):</strong> Wash hands, Introduce yourself (name + role), confirm Patient identity and preferred name, Explain what you are about to do and obtain consent.</li>
+      <li><strong>History structure:</strong> Presenting complaint → History of presenting complaint (SOCRATES / OPQRST) → Past medical / surgical → Medications &amp; allergies → Family history → Social (smoking, alcohol, occupation, living situation) → Systems review (targeted).</li>
+      <li><strong>Examination:</strong> Always start with general inspection from the end of the bed. Work systematically (inspection → palpation → percussion → auscultation). Present findings clearly and confidently.</li>
+      <li><strong>Red flags:</strong> Verbalise life-threatening differentials early (ACS, PE, aortic dissection, meningitis, sepsis, DKA, etc.).</li>
+      <li><strong>Investigations:</strong> Request in a logical order (bedside → bloods → imaging → specialist). Justify each test briefly.</li>
+      <li><strong>Management:</strong> ABCDE approach for the acutely unwell. Then definitive treatment, monitoring, escalation and safety-netting.</li>
+      <li><strong>Communication:</strong> Speak clearly to both the patient and the examiner. Summarise findings at the end of the station.</li>
+      <li><strong>Time management:</strong> Allocate time deliberately. Leave 1–2 minutes for summary and questions from the examiner.</li>
+      <li><strong>Common pitfalls:</strong> Forgetting consent, missing red-flag questions, incomplete systems review, not examining relevant systems, vague differentials, unsafe management plans.</li>
+    </ul>
+  </section>
+
+  <!-- ========== PROGRESS VIEW ========== -->
+  <section id="progress" class="view">
+    <h2 class="section-title">Your Progress</h2>
+    <p class="section-desc">Track completed stations. Progress is stored in this browser session.</p>
+    <div class="stat-card" style="max-width:400px;margin:0 auto 1rem;">
+      <div class="num" id="progress-num">0 / 20</div>
+      <div class="label">Cases Completed</div>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
+    <div id="progress-list" class="cases-grid"></div>
+    <div class="text-center mt-2">
+      <button class="btn btn-outline btn-sm" onclick="resetProgress()">Reset All Progress</button>
+    </div>
+  </section>
+
+  <footer>
+    Internal Medicine OSCE Practice Suite · For educational use · Align with local guidelines and curriculum · Not a substitute for supervised clinical training
+  </footer>
+
+  <script>
+    // ===================== DATA: 20 CASES =====================
+    const cases = [
+      {
+        id: 1,
+        title: "Acute Chest Pain",
+        system: "Cardiology",
+        time: "8–10 min",
+        brief: "You are the medical SHO. A 58-year-old man presents to ED with central chest pain for 2 hours. Take a focused history, outline examination priorities, request key investigations and give your differential and initial management.",
+        scenario: "Mr. David Chen, 58 years old. He describes a heavy, crushing central chest pain that started while climbing stairs. Pain radiates to the left arm and jaw. Associated with sweating and mild dyspnoea. He has hypertension and smokes 20 cigarettes/day. No known IHD.",
+        steps: [
+          {
+            type: "history",
+            label: "History",
+            prompt: "Which of the following history elements are MOST important to elicit now? (Select all that apply)",
+            multi: true,
+            options: [
+              { text: "Character, radiation, severity and time course of pain", correct: true },
+              { text: "Associated symptoms (sweating, nausea, dyspnoea, syncope)", correct: true },
+              { text: "Cardiovascular risk factors (HTN, DM, lipids, smoking, family history)", correct: true },
+              { text: "Detailed dietary history for the past month", correct: false },
+              { text: "Previous episodes, exertional nature, relief with rest/GTN", correct: true },
+              { text: "Full travel history to tropical countries", correct: false }
+            ],
+            feedback: "Focus on SOCRATES + cardiac risk factors + red-flag associated symptoms. Avoid irrelevant detail that consumes time."
+          },
+          {
+            type: "exam",
+            label: "Examination",
+            prompt: "What examination findings would you prioritise?",
+            multi: true,
+            options: [
+              { text: "Vital signs including BP in both arms", correct: true },
+              { text: "Cardiovascular examination (heart sounds, murmurs, JVP, oedema)", correct: true },
+              { text: "Signs of heart failure / pulmonary oedema", correct: true },
+              { text: "Full neurological examination including reflexes", correct: false },
+              { text: "Abdominal examination for organomegaly", correct: false }
+            ],
+            feedback: "ABC approach, BP in both arms (dissection), full CVS exam and look for failure. Time does not allow exhaustive multi-system exam."
+          },
+          {
+            type: "ix",
+            label: "Investigations",
+            prompt: "Select the MOST appropriate immediate investigations:",
+            multi: true,
+            options: [
+              { text: "12-lead ECG (and serial ECGs)", correct: true },
+              { text: "Troponin (high-sensitivity) ± serial", correct: true },
+              { text: "Chest X-ray", correct: true },
+              { text: "Full blood count, U&E, glucose, lipids", correct: true },
+              { text: "Urgent CT head", correct: false },
+              { text: "Colonoscopy", correct: false }
+            ],
+            feedback: "ECG within 10 minutes is mandatory. Troponin, CXR and basic bloods complete the initial work-up. Further imaging depends on differentials."
+          },
+          {
+            type: "dx",
+            label: "Diagnosis",
+            prompt: "Most likely diagnosis and key differentials?",
+            multi: false,
+            options: [
+              { text: "Acute coronary syndrome (NSTEMI/UA) — differentials: aortic dissection, PE, pneumothorax, oesophageal spasm, pericarditis", correct: true },
+              { text: "Uncomplicated gastro-oesophageal reflux", correct: false },
+              { text: "Musculoskeletal chest wall pain only", correct: false },
+              { text: "Primary anxiety attack without organic cause", correct: false }
+            ],
+            feedback: "Crushing pain with radiation, autonomic features and risk factors point strongly to ACS. Always keep life-threatening mimics on the differential."
+          },
+          {
+            type: "mx",
+            label: "Management",
+            prompt: "Initial management priorities:",
+            multi: true,
+            options: [
+              { text: "ABCDE, oxygen if hypoxic, cardiac monitoring", correct: true },
+              { text: "Aspirin 300 mg (unless contraindicated)", correct: true },
+              { text: "Analgesia (e.g. GTN ± morphine) and anti-emetic", correct: true },
+              { text: "Urgent discussion with cardiology / activate ACS pathway", correct: true },
+              { text: "Immediate thrombolysis without ECG confirmation", correct: false },
+              { text: "Discharge home with outpatient follow-up only", correct: false }
+            ],
+            feedback: "MONA-BASH style care + early specialist involvement. Do not thrombolyse without clear STEMI criteria and after excluding contraindications."
+          }
+        ]
+      },
+      {
+        id: 2,
+        title: "Acute Shortness of Breath – Heart Failure",
+        system: "Cardiology",
+        time: "8–10 min",
+        brief: "A 72-year-old woman is brought to ED with progressive dyspnoea over 3 days, worse lying flat. Assess and manage.",
+        scenario: "Mrs. Helen Park, 72. Known ischaemic heart disease and hypertension. Increasing orthopnoea, paroxysmal nocturnal dyspnoea and bilateral ankle swelling. She takes ramipril, bisoprolol and aspirin. On examination: RR 28, SpO2 90% on air, BP 160/95, HR 110 irregular, bilateral crackles to mid-zones, elevated JVP, pitting oedema to mid-shin.",
+        steps: [
+          {
+            type: "history",
+            label: "History",
+            prompt: "Key history points to clarify:",
+            multi: true,
+            options: [
+              { text: "Orthopnoea, PND, ankle swelling, weight gain", correct: true },
+              { text: "Chest pain, palpitations, syncope", correct: true },
+              { text: "Compliance with medications and recent changes", correct: true },
+              { text: "Dietary salt and fluid intake", correct: true },
+              { text: "Detailed childhood immunisation record", correct: false }
+            ],
+            feedback: "Classic symptoms of decompensated heart failure plus triggers (non-compliance, diet, infection, arrhythmia)."
+          },
+          {
+            type: "exam",
+            label: "Examination",
+            prompt: "Priority examination findings:",
+            multi: true,
+            options: [
+              { text: "Respiratory rate, SpO2, work of breathing", correct: true },
+              { text: "JVP, heart sounds, gallop, murmurs", correct: true },
+              { text: "Lung bases for crackles / effusion", correct: true },
+              { text: "Peripheral oedema and ascites", correct: true },
+              { text: "Fundoscopy for papilloedema", correct: false }
+            ],
+            feedback: "Focus on signs of congestion (left and right) and haemodynamic status."
+          },
+          {
+            type: "ix",
+            label: "Investigations",
+            prompt: "Immediate investigations:",
+            multi: true,
+            options: [
+              { text: "ECG (look for AF, ischaemia, LVH)", correct: true },
+              { text: "Chest X-ray", correct: true },
+              { text: "BNP / NT-proBNP", correct: true },
+              { text: "ABG if severe respiratory distress", correct: true },
+              { text: "Troponin, U&E, FBC", correct: true },
+              { text: "Urgent colonoscopy", correct: false }
+            ],
+            feedback: "ECG, CXR and BNP are cornerstone. Bloods assess precipitants and organ function."
+          },
+          {
+            type: "dx",
+            label: "Diagnosis",
+            prompt: "Working diagnosis:",
+            multi: false,
+            options: [
+              { text: "Acute decompensated heart failure (likely HFrEF or HFpEF) precipitated by AF or non-compliance", correct: true },
+              { text: "Community-acquired pneumonia alone", correct: false },
+              { text: "Acute asthma exacerbation", correct: false },
+              { text: "Pulmonary embolism only", correct: false }
+            ],
+            feedback: "Clinical picture + risk factors strongly support acute HF. Always consider concurrent infection or PE."
+          },
+          {
+            type: "mx",
+            label: "Management",
+            prompt: "Initial management:",
+            multi: true,
+            options: [
+              { text: "Sit upright, oxygen to target SpO2 94–98% (or 88–92% if COPD)", correct: true },
+              { text: "IV loop diuretic (e.g. furosemide)", correct: true },
+              { text: "Nitrates if hypertensive and not hypotensive", correct: true },
+              { text: "Treat precipitant (rate control AF, antibiotics if infection)", correct: true },
+              { text: "Immediate intubation for all patients", correct: false }
+            ],
+            feedback: "Supportive care + diuresis + treat cause. Escalate to critical care if tiring or acidotic."
+          }
+        ]
+      },
+      {
+        id: 3,
+        title: "Acute Abdominal Pain",
+        system: "Gastroenterology",
+        time: "8–10 min",
+        brief: "A 45-year-old man presents with severe upper abdominal pain radiating to the back. Take history, examine and plan management.",
+        scenario: "Mr. James Okonkwo, 45. Sudden severe epigastric pain radiating to the back, associated with nausea and vomiting. He drinks 40–50 units alcohol/week. No prior surgery. On exam: distressed, tender epigastrium with guarding, no rebound, bowel sounds present. HR 105, BP 110/70, temp 37.8°C.",
+        steps: [
+          {
+            type: "history",
+            label: "History",
+            prompt: "Essential history elements:",
+            multi: true,
+            options: [
+              { text: "Pain character, radiation, onset, relieving/aggravating factors", correct: true },
+              { text: "Alcohol intake, gallstones, previous pancreatitis, medications", correct: true },
+              { text: "Vomiting, haematemesis, stool colour, urinary symptoms", correct: true },
+              { text: "Detailed psychiatric history only", correct: false }
+            ],
+            feedback: "SOCRATES + risk factors for pancreatitis (alcohol, gallstones, drugs) and red flags for perforation or ischaemia."
+          },
+          {
+            type: "exam",
+            label: "Examination",
+            prompt: "Key examination priorities:",
+            multi: true,
+            options: [
+              { text: "Vital signs and signs of shock", correct: true },
+              { text: "Abdominal inspection, palpation (guarding, rigidity, masses)", correct: true },
+              { text: "Bowel sounds, digital rectal examination if indicated", correct: true },
+              { text: "Cullen’s / Grey-Turner signs", correct: true },
+              { text: "Full cranial nerve examination", correct: false }
+            ],
+            feedback: "Look for peritonitis, severity markers and differential signs."
+          },
+          {
+            type: "ix",
+            label: "Investigations",
+            prompt: "Appropriate investigations:",
+            multi: true,
+            options: [
+              { text: "Serum lipase / amylase", correct: true },
+              { text: "FBC, U&E, LFT, glucose, calcium, CRP", correct: true },
+              { text: "ABG if severe", correct: true },
+              { text: "Abdominal ultrasound / CT if indicated", correct: true },
+              { text: "Urgent EEG", correct: false }
+            ],
+            feedback: "Lipase is more specific. Severity scoring (e.g. Glasgow) guides intensity of care."
+          },
+          {
+            type: "dx",
+            label: "Diagnosis",
+            prompt: "Most likely diagnosis:",
+            multi: false,
+            options: [
+              { text: "Acute pancreatitis (alcohol-related) — differentials: perforated ulcer, cholecystitis, mesenteric ischaemia, MI", correct: true },
+              { text: "Uncomplicated gastritis", correct: false },
+              { text: "Renal colic only", correct: false },
+              { text: "Appendicitis", correct: false }
+            ],
+            feedback: "Classic history + alcohol risk. Always exclude surgical emergencies and ACS."
+          },
+          {
+            type: "mx",
+            label: "Management",
+            prompt: "Initial management:",
+            multi: true,
+            options: [
+              { text: "ABCDE, IV access, aggressive fluid resuscitation", correct: true },
+              { text: "Analgesia (opiates often required)", correct: true },
+              { text: "Nil by mouth, anti-emetics", correct: true },
+              { text: "Monitor urine output, early senior review / HDU if severe", correct: true },
+              { text: "Immediate laparotomy for all cases", correct: false }
+            ],
+            feedback: "Supportive care is the mainstay. Surgery only for complications or alternative diagnoses."
+          }
+        ]
+      },
+      {
+        id: 4,
+        title: "Syncope",
+        system: "Cardiology / Neurology",
+        time: "8–10 min",
+        brief: "A 68-year-old man had a brief loss of consciousness at home. Assess cause and risk.",
+        scenario: "Mr. Robert Singh, 68. Standing after dinner, felt light-headed, then collapsed for ~20 seconds. Witnessed by wife – no seizure activity, rapid recovery, no confusion. Known aortic stenosis murmur previously noted. On exam: BP 130/80 lying, 105/70 standing, slow-rising pulse, ejection systolic murmur radiating to carotids.",
+        steps: [
+          {
+            type: "history",
+            label: "History",
+            prompt: "Critical history questions:",
+            multi: true,
+            options: [
+              { text: "Prodrome (light-headed, palpitations, chest pain, aura)", correct: true },
+              { text: "Witness account (duration, colour, movements, recovery)", correct: true },
+              { text: "Postural symptoms, medications (antihypertensives, diuretics)", correct: true },
+              { text: "Previous cardiac disease, family history of sudden death", correct: true },
+              { text: "Preferred holiday destinations", correct: false }
+            ],
+            feedback: "Distinguish cardiac, reflex, orthostatic and neurological causes."
+          },
+          {
+            type: "exam",
+            label: "Examination",
+            prompt: "Examination focus:",
+            multi: true,
+            options: [
+              { text: "Lying and standing BP", correct: true },
+              { text: "Cardiovascular exam (murmurs, rate, rhythm)", correct: true },
+              { text: "Neurological screen (focal signs)", correct: true },
+              { text: "Signs of injury from fall", correct: true },
+              { text: "Detailed ophthalmology exam", correct: false }
+            ],
+            feedback: "Orthostatic hypotension and structural heart disease are high-yield."
+          },
+          {
+            type: "ix",
+            label: "Investigations",
+            prompt: "Key investigations:",
+            multi: true,
+            options: [
+              { text: "12-lead ECG", correct: true },
+              { text: "Bloods (FBC, U&E, glucose)", correct: true },
+              { text: "Echocardiogram (given murmur)", correct: true },
+              { text: "Consider prolonged monitoring if arrhythmia suspected", correct: true },
+              { text: "Routine CT head in all syncope", correct: false }
+            ],
+            feedback: "ECG is mandatory. Imaging only if focal neurology or head injury."
+          },
+          {
+            type: "dx",
+            label: "Diagnosis",
+            prompt: "Most likely cause:",
+            multi: false,
+            options: [
+              { text: "Cardiac syncope secondary to significant aortic stenosis ± orthostatic component", correct: true },
+              { text: "Simple vasovagal with no further work-up needed", correct: false },
+              { text: "First epileptic seizure", correct: false },
+              { text: "Hypoglycaemia only", correct: false }
+            ],
+            feedback: "Exertional or structural cardiac syncope is high risk and needs urgent cardiology input."
+          },
+          {
+            type: "mx",
+            label: "Management",
+            prompt: "Management priorities:",
+            multi: true,
+            options: [
+              { text: "Admit / observe if high-risk features", correct: true },
+              { text: "Urgent echocardiography and cardiology referral", correct: true },
+              { text: "Review and rationalise hypotensive medications", correct: true },
+              { text: "Advise against driving until assessed", correct: true },
+              { text: "Discharge without follow-up", correct: false }
+            ],
+            feedback: "High-risk syncope requires inpatient evaluation and driving advice."
+          }
+        ]
+      },
+      {
+        id: 5,
+        title: "Thunderclap Headache",
+        system: "Neurology",
+        time: "8–10 min",
+        brief: "A 42-year-old woman presents with the worst headache of her life of sudden onset. Assess for subarachnoid haemorrhage.",
+        scenario: "Ms. Sarah Ali, 42. Sudden severe occipital headache while lifting a box, peaked within seconds, associated with nausea and photophobia. No trauma. Past history of migraine but this is different. On exam: alert, neck stiffness, no focal neurology, BP 150/90, temp 37.1°C.",
+        steps: [
+          {
+            type: "history",
+            label: "History",
+            prompt: "Key questions:",
+            multi: true,
+            options: [
+              { text: "Time to peak intensity (thunderclap = seconds to minutes)", correct: true },
+              { text: "Associated neck stiffness, vomiting, loss of consciousness, seizure", correct: true },
+              { text: "Previous similar headaches, trauma, anticoagulation, cocaine", correct: true },
+              { text: "Family history of polycystic kidney disease / aneurysm", correct: true },
+              { text: "Detailed menstrual cycle history only", correct: false }
+            ],
+            feedback: "Thunderclap character is the key red flag for SAH."
+          },
+          {
+            type: "exam",
+            label: "Examination",
+            prompt: "Examination priorities:",
+            multi: true,
+            options: [
+              { text: "GCS / conscious level", correct: true },
+              { text: "Meningism (neck stiffness, Kernig)", correct: true },
+              { text: "Focal neurological signs, pupils", correct: true },
+              { text: "Fundoscopy (papilloedema, subhyaloid haemorrhage)", correct: true },
+              { text: "Abdominal examination for organomegaly", correct: false }
+            ],
+            feedback: "Look for meningism and focal signs; absence does not exclude SAH."
+          },
+          {
+            type: "ix",
+            label: "Investigations",
+            prompt: "Urgent investigations:",
+            multi: true,
+            options: [
+              { text: "Non-contrast CT head (as early as possible)", correct: true },
+              { text: "If CT negative and suspicion high → LP for xanthochromia (after 12 h)", correct: true },
+              { text: "Basic bloods including coagulation", correct: true },
+              { text: "ECG (neurogenic changes possible)", correct: true },
+              { text: "Outpatient MRI in 2 weeks", correct: false }
+            ],
+            feedback: "CT sensitivity falls after hours; LP timing is critical."
+          },
+          {
+            type: "dx",
+            label: "Diagnosis",
+            prompt: "Working diagnosis:",
+            multi: false,
+            options: [
+              { text: "Suspected subarachnoid haemorrhage — differentials: migraine, meningitis, pituitary apoplexy, dissection", correct: true },
+              { text: "Tension-type headache", correct: false },
+              { text: "Sinusitis", correct: false },
+              { text: "Medication-overuse headache", correct: false }
+            ],
+            feedback: "Treat as SAH until proven otherwise."
+          },
+          {
+            type: "mx",
+            label: "Management",
+            prompt: "Immediate management:",
+            multi: true,
+            options: [
+              { text: "ABCDE, senior/neurosurgical involvement early", correct: true },
+              { text: "Keep nil by mouth, IV access, analgesia, anti-emetic", correct: true },
+              { text: "Strict bed rest, avoid straining", correct: true },
+              { text: "Nimodipine if SAH confirmed (after specialist advice)", correct: true },
+              { text: "Discharge with simple analgesia", correct: false }
+            ],
+            feedback: "Time-critical pathway; prevent re-bleeding and secondary injury."
+          }
+        ]
+      },
+      {
+        id: 6,
+        title: "Altered Mental Status",
+        system: "General / Geriatrics",
+        time: "8–10 min",
+        brief: "An 82-year-old woman is brought in confused. Assess causes and manage.",
+        scenario: "Mrs. Margaret Doyle, 82. Usually independent with mild cognitive impairment. Family report increasing confusion over 2 days, not recognising relatives, agitated at night. Reduced oral intake. On exam: GCS 14 (confused), temp 38.2°C, HR 98, dry mucous membranes, no focal neurology. Urine dip: leukocytes +, nitrites +.",
+        steps: [
+          {
+            type: "history",
+            label: "History",
+            prompt: "Important collateral and history points:",
+            multi: true,
+            options: [
+              { text: "Baseline cognition and function (collateral history essential)", correct: true },
+              { text: "Onset and fluctuation of confusion", correct: true },
+              { text: "Infection symptoms, medication changes, pain, constipation", correct: true },
+              { text: "Alcohol, sensory impairment, sleep pattern", correct: true },
+              { text: "Detailed travel history to Antarctica", correct: false }
+            ],
+            feedback: "Delirium work-up relies heavily on collateral history."
+          },
+          {
+            type: "exam",
+            label: "Examination",
+            prompt: "Examination priorities:",
+            multi: true,
+            options: [
+              { text: "ABCDE and vital signs including glucose", correct: true },
+              { text: "Hydration status, signs of infection (chest, urine, skin, abdomen)", correct: true },
+              { text: "Neurological examination for focal signs", correct: true },
+              { text: "Look for constipation, urinary retention", correct: true },
+              { text: "Full psychiatric mental state only", correct: false }
+            ],
+            feedback: "Treatable causes of delirium must be sought systematically."
+          },
+          {
+            type: "ix",
+            label: "Investigations",
+            prompt: "Core investigations:",
+            multi: true,
+            options: [
+              { text: "Capillary glucose, FBC, U&E, CRP, LFT, calcium", correct: true },
+              { text: "Urinalysis ± culture", correct: true },
+              { text: "Chest X-ray, ECG", correct: true },
+              { text: "Blood cultures if febrile", correct: true },
+              { text: "Routine brain MRI for every delirium", correct: false }
+            ],
+            feedback: "Bloods, urine and CXR identify the majority of precipitants."
+          },
+          {
+            type: "dx",
+            label: "Diagnosis",
+            prompt: "Most likely diagnosis:",
+            multi: false,
+            options: [
+              { text: "Delirium secondary to urinary tract infection ± dehydration", correct: true },
+              { text: "New diagnosis of Alzheimer’s disease alone", correct: false },
+              { text: "Stroke without focal signs", correct: false },
+              { text: "Primary psychiatric psychosis", correct: false }
+            ],
+            feedback: "Acute fluctuation + infection = delirium until proven otherwise."
+          },
+          {
+            type: "mx",
+            label: "Management",
+            prompt: "Management:",
+            multi: true,
+            options: [
+              { text: "Treat infection (appropriate antibiotics)", correct: true },
+              { text: "Rehydration, oxygen if needed, correct electrolytes", correct: true },
+              { text: "Orientation, hearing/visual aids, avoid restraints", correct: true },
+              { text: "Review medications (stop anticholinergics if possible)", correct: true },
+              { text: "High-dose antipsychotics for all patients", correct: false }
+            ],
+            feedback: "Treat cause + supportive delirium care. Antipsychotics only if severe distress/risk."
+          }
+        ]
+      },
+      {
+        id: 7,
+        title: "Hypertensive Emergency",
+        system: "Cardiology / Renal",
+        time: "8–10 min",
+        brief: "A 55-year-old man has BP 220/130 with headache and visual disturbance. Assess and manage.",
+        scenario: "Mr. Ahmed Hassan, 55. Known hypertension, non-compliant with medication. Severe headache, blurred vision for 1 day. On exam: BP 220/130 both arms, HR 90, fundoscopy shows flame haemorrhages and papilloedema. No chest pain, mild basal crackles. Creatinine elevated from baseline.",
+        steps: [
+          {
+            type: "history",
+            label: "History",
+            prompt: "Key history:",
+            multi: true,
+            options: [
+              { text: "Symptoms of end-organ damage (chest pain, dyspnoea, vision, neurology, urine output)", correct: true },
+              { text: "Medication adherence and recent changes", correct: true },
+              { text: "Recreational drugs (cocaine, amphetamines)", correct: true },
+              { text: "Pregnancy status if female of childbearing age", correct: true },
+              { text: "Favourite sports team", correct: false }
+            ],
+            feedback: "Distinguish emergency (end-organ damage) from urgency."
+          },
+          {
+            type: "exam",
+            label: "Examination",
+            prompt: "Examination focus:",
+            multi: true,
+            options: [
+              { text: "BP both arms, pulses", correct: true },
+              { text: "Fundoscopy (papilloedema, haemorrhages)", correct: true },
+              { text: "Cardiovascular and respiratory exam (failure)", correct: true },
+              { text: "Neurological examination", correct: true },
+              { text: "Detailed dermatology survey", correct: false }
+            ],
+            feedback: "Fundoscopy is essential to confirm malignant hypertension."
+          },
+          {
+            type: "ix",
+            label: "Investigations",
+            prompt: "Investigations:",
+            multi: true,
+            options: [
+              { text: "U&E, creatinine, FBC, glucose", correct: true },
+              { text: "ECG, CXR", correct: true },
+              { text: "Urinalysis (protein, blood)", correct: true },
+              { text: "CT head if focal neurology", correct: true },
+              { text: "Routine colonoscopy", correct: false }
+            ],
+            feedback: "Assess target organs and secondary causes as appropriate."
+          },
+          {
+            type: "dx",
+            label: "Diagnosis",
+            prompt: "Diagnosis:",
+            multi: false,
+            options: [
+              { text: "Hypertensive emergency (malignant hypertension) with retinopathy and AKI", correct: true },
+              { text: "Hypertensive urgency without end-organ damage", correct: false },
+              { text: "Simple migraine", correct: false },
+              { text: "Anxiety-related BP elevation only", correct: false }
+            ],
+            feedback: "Papilloedema + AKI = emergency requiring controlled reduction."
+          },
+          {
+            type: "mx",
+            label: "Management",
+            prompt: "Management principles:",
+            multi: true,
+            options: [
+              { text: "Admit to HDU/ICU level care", correct: true },
+              { text: "Controlled BP reduction (not abrupt) with IV agents (e.g. labetalol, nicardipine)", correct: true },
+              { text: "Aim ~20–25% reduction in MAP over first hours", correct: true },
+              { text: "Treat underlying cause and restart oral antihypertensives carefully", correct: true },
+              { text: "Give sublingual nifedipine for rapid drop", correct: false }
+            ],
+            feedback: "Avoid rapid uncontrolled drops that risk cerebral/renal ischaemia."
+          }
+        ]
+      },
+      {
+        id: 8,
+        title: "Diabetic Ketoacidosis",
+        system: "Endocrine",
+        time: "8–10 min",
+        brief: "A 24-year-old man with type 1 diabetes presents with vomiting and drowsiness. Manage DKA.",
+        scenario: "Mr. Tom Bradley, 24. T1DM on basal-bolus insulin. Missed doses due to gastroenteritis. Now polyuria, polydipsia, vomiting, abdominal pain, drowsy. On exam: dehydrated, RR 28 (Kussmaul), HR 120, BP 95/60, GCS 13, capillary glucose high, ketones strongly positive, ABG shows metabolic acidosis.",
+        steps: [
+          {
+            type: "history",
+            label: "History",
+            prompt: "Relevant history:",
+            multi: true,
+            options: [
+              { text: "Insulin regimen and recent missed doses / illness", correct: true },
+              { text: "Polyuria, polydipsia, weight loss, vomiting", correct: true },
+              { text: "Precipitants (infection, omission, new diagnosis)", correct: true },
+              { text: "Previous DKA episodes", correct: true },
+              { text: "Detailed family tree for three generations", correct: false }
+            ],
+            feedback: "Precipitant identification is crucial for prevention of recurrence."
+          },
+          {
+            type: "exam",
+            label: "Examination",
+            prompt: "Examination priorities:",
+            multi: true,
+            options: [
+              { text: "ABCDE, volume status, conscious level", correct: true },
+              { text: "Respiratory pattern (Kussmaul)", correct: true },
+              { text: "Look for source of infection", correct: true },
+              { text: "Abdominal examination (ileus common)", correct: true },
+              { text: "Full joint examination", correct: false }
+            ],
+            feedback: "Severity markers guide level of care."
+          },
+          {
+            type: "ix",
+            label: "Investigations",
+            prompt: "Immediate investigations:",
+            multi: true,
+            options: [
+              { text: "Capillary and laboratory glucose, blood ketones", correct: true },
+              { text: "ABG or VBG (pH, bicarbonate)", correct: true },
+              { text: "U&E (especially potassium), FBC, CRP", correct: true },
+              { text: "ECG, cultures if infection suspected", correct: true },
+              { text: "HbA1c only (no acute value)", correct: false }
+            ],
+            feedback: "Diagnostic triad: hyperglycaemia + ketonaemia + acidosis."
+          },
+          {
+            type: "dx",
+            label: "Diagnosis",
+            prompt: "Diagnosis:",
+            multi: false,
+            options: [
+              { text: "Diabetic ketoacidosis precipitated by intercurrent illness / insulin omission", correct: true },
+              { text: "Hyperosmolar hyperglycaemic state only", correct: false },
+              { text: "Simple gastroenteritis", correct: false },
+              { text: "Lactic acidosis from metformin (he is not on it)", correct: false }
+            ],
+            feedback: "Classic presentation in known T1DM."
+          },
+          {
+            type: "mx",
+            label: "Management",
+            prompt: "DKA protocol priorities:",
+            multi: true,
+            options: [
+              { text: "IV 0.9% saline resuscitation then fixed-rate insulin infusion", correct: true },
+              { text: "Potassium replacement as soon as urine output established and K known", correct: true },
+              { text: "Hourly glucose and ketone monitoring, regular electrolytes", correct: true },
+              { text: "Identify and treat precipitant; continue long-acting insulin", correct: true },
+              { text: "Subcutaneous insulin only with no fluids", correct: false }
+            ],
+            feedback: "Follow local DKA pathway (JBDS or equivalent). Watch for hypokalaemia and fluid overload."
+          }
+        ]
+      },
+      {
+        id: 9,
+        title: "Iron-Deficiency Anaemia",
+        system: "Haematology / Gastroenterology",
+        time: "8–10 min",
+        brief: "A 68-year-old man is found to have Hb 89 g/L. Investigate and manage.",
+        scenario: "Mr. Peter Walsh, 68. Fatigue and mild dyspnoea on exertion for 3 months. No overt bleeding. Diet normal. On exam: pale conjunctivae, no lymphadenopathy, abdominal exam normal, PR not performed yet. Bloods: Hb 89, MCV 72, ferritin low, transferrin saturation low.",
+        steps: [
+          {
+            type: "history",
+            label: "History",
+            prompt: "Essential history:",
+            multi: true,
+            options: [
+              { text: "Symptoms of anaemia and bleeding (melaena, haematuria, menorrhagia if female)", correct: true },
+              { text: "Diet, medications (NSAIDs, anticoagulants), alcohol", correct: true },
+              { text: "Weight loss, change in bowel habit, family history of GI cancer", correct: true },
+              { text: "Travel and chronic disease", correct: true },
+              { text: "Preferred brand of tea", correct: false }
+            ],
+            feedback: "In men and post-menopausal women, GI blood loss must be excluded."
+          },
+          {
+            type: "exam",
+            label: "Examination",
+            prompt: "Examination:",
+            multi: true,
+            options: [
+              { text: "General (pallor, koilonychia, angular stomatitis)", correct: true },
+              { text: "Abdominal masses, lymphadenopathy", correct: true },
+              { text: "Digital rectal examination", correct: true },
+              { text: "Signs of chronic liver disease or malignancy", correct: true },
+              { text: "Full cranial nerve exam routinely", correct: false }
+            ],
+            feedback: "PR is mandatory in unexplained IDA."
+          },
+          {
+            type: "ix",
+            label: "Investigations",
+            prompt: "Investigations:",
+            multi: true,
+            options: [
+              { text: "Confirm iron studies (ferritin, TSat, TIBC)", correct: true },
+              { text: "Coeliac serology", correct: true },
+              { text: "Urgent bidirectional endoscopy (OGD + colonoscopy) in this age group", correct: true },
+              { text: "Consider CT if endoscopy negative and suspicion high", correct: true },
+              { text: "No further investigation needed", correct: false }
+            ],
+            feedback: "British guidelines mandate GI investigation in this demographic."
+          },
+          {
+            type: "dx",
+            label: "Diagnosis",
+            prompt: "Working diagnosis:",
+            multi: false,
+            options: [
+              { text: "Iron-deficiency anaemia — must exclude occult GI blood loss / malignancy", correct: true },
+              { text: "Thalassaemia trait only", correct: false },
+              { text: "Anaemia of chronic disease without further tests", correct: false },
+              { text: "Vitamin B12 deficiency", correct: false }
+            ],
+            feedback: "Low ferritin confirms absolute iron deficiency."
+          },
+          {
+            type: "mx",
+            label: "Management",
+            prompt: "Management:",
+            multi: true,
+            options: [
+              { text: "Oral iron replacement (or IV if intolerant/malabsorption)", correct: true },
+              { text: "Urgent referral for endoscopy", correct: true },
+              { text: "Treat underlying cause once found", correct: true },
+              { text: "Monitor Hb response", correct: true },
+              { text: "Blood transfusion for every patient with Hb <100", correct: false }
+            ],
+            feedback: "Replace iron and find the source. Transfusion only if symptomatic or very low Hb."
+          }
+        ]
+      },
+      {
+        id: 10,
+        title: "Thyrotoxicosis",
+        system: "Endocrine",
+        time: "8–10 min",
+        brief: "A 35-year-old woman presents with weight loss, tremor and palpitations. Assess thyroid status.",
+        scenario: "Ms. Emily Foster, 35. 6 kg weight loss despite good appetite, heat intolerance, tremor, palpitations, anxiety. On exam: HR 112 irregular (AF), fine tremor, warm moist skin, diffuse goitre with bruit, lid lag. No eye proptosis yet.",
+        steps: [
+          {
+            type: "history",
+            label: "History",
+            prompt: "Key history points:",
+            multi: true,
+            options: [
+              { text: "Weight change, appetite, heat/cold preference, sweating", correct: true },
+              { text: "Palpitations, tremor, anxiety, sleep disturbance", correct: true },
+              { text: "Neck swelling, eye symptoms, family history of thyroid disease", correct: true },
+              { text: "Medications (amiodarone, lithium), recent pregnancy", correct: true },
+              { text: "Detailed dental history", correct: false }
+            ],
+            feedback: "Symptom complex points to thyrotoxicosis; aetiology next."
+          },
+          {
+            type: "exam",
+            label: "Examination",
+            prompt: "Thyroid status examination priorities:",
+            multi: true,
+            options: [
+              { text: "Hands (tremor, warmth, tachycardia, AF)", correct: true },
+              { text: "Eyes (lid lag, retraction, proptosis, chemosis)", correct: true },
+              { text: "Neck (goitre, bruit, nodes)", correct: true },
+              { text: "Pretibial myxoedema, reflexes", correct: true },
+              { text: "Full PR examination routinely", correct: false }
+            ],
+            feedback: "Systematic thyroid status exam is a classic OSCE skill."
+          },
+          {
+            type: "ix",
+            label: "Investigations",
+            prompt: "Investigations:",
+            multi: true,
+            options: [
+              { text: "TSH, free T4 (± free T3)", correct: true },
+              { text: "TSH-receptor antibodies (TRAb) if Graves suspected", correct: true },
+              { text: "ECG (AF common)", correct: true },
+              { text: "Consider thyroid ultrasound / uptake scan as indicated", correct: true },
+              { text: "Urgent brain CT", correct: false }
+            ],
+            feedback: "Suppressed TSH + raised free hormones = thyrotoxicosis."
+          },
+          {
+            type: "dx",
+            label: "Diagnosis",
+            prompt: "Most likely diagnosis:",
+            multi: false,
+            options: [
+              { text: "Graves’ disease with thyrotoxicosis and new AF", correct: true },
+              { text: "Hypothyroidism", correct: false },
+              { text: "Simple anxiety disorder", correct: false },
+              { text: "Phaeochromocytoma only", correct: false }
+            ],
+            feedback: "Diffuse goitre + bruit + systemic features = Graves until proven otherwise."
+          },
+          {
+            type: "mx",
+            label: "Management",
+            prompt: "Initial management:",
+            multi: true,
+            options: [
+              { text: "Beta-blocker (e.g. propranolol) for symptom control", correct: true },
+              { text: "Anti-thyroid drug (carbimazole / methimazole) after discussion", correct: true },
+              { text: "Rate control / anticoagulation decision for AF", correct: true },
+              { text: "Urgent endocrinology referral; avoid excess iodine", correct: true },
+              { text: "Immediate total thyroidectomy in ED", correct: false }
+            ],
+            feedback: "Symptom control first; definitive therapy planned by specialists."
+          }
+        ]
+      },
+      {
+        id: 11,
+        title: "Upper GI Bleeding",
+        system: "Gastroenterology",
+        time: "8–10 min",
+        brief: "A 60-year-old man vomits frank blood. Resuscitate and risk-stratify.",
+        scenario: "Mr. George Mitchell, 60. Two episodes of haematemesis (bright red), dizzy on standing. History of peptic ulcer disease, takes ibuprofen for arthritis, drinks 30 units/week. On exam: pale, HR 110, BP 95/60, cool peripheries. Abdomen soft, no peritonitis. PR – melaena.",
+        steps: [
+          {
+            type: "history",
+            label: "History",
+            prompt: "Critical history:",
+            multi: true,
+            options: [
+              { text: "Volume and nature of bleeding, syncope, melaena", correct: true },
+              { text: "NSAIDs, anticoagulants, previous ulcers, liver disease, alcohol", correct: true },
+              { text: "Comorbidity (cardiac, renal)", correct: true },
+              { text: "Last meal (for endoscopy timing)", correct: true },
+              { text: "Favourite colour", correct: false }
+            ],
+            feedback: "Risk factors and volume estimate guide urgency."
+          },
+          {
+            type: "exam",
+            label: "Examination",
+            prompt: "Examination:",
+            multi: true,
+            options: [
+              { text: "ABCDE, signs of shock", correct: true },
+              { text: "Stigmata of chronic liver disease", correct: true },
+              { text: "Abdominal tenderness / peritonitis", correct: true },
+              { text: "Digital rectal examination", correct: true },
+              { text: "Full neurological exam first", correct: false }
+            ],
+            feedback: "Haemodynamic status dictates resuscitation intensity."
+          },
+          {
+            type: "ix",
+            label: "Investigations",
+            prompt: "Investigations:",
+            multi: true,
+            options: [
+              { text: "FBC, U&E (urea often disproportionately high), coagulation, cross-match", correct: true },
+              { text: "Group & save / cross-match blood", correct: true },
+              { text: "Liver function tests", correct: true },
+              { text: "Urgent endoscopy after resuscitation", correct: true },
+              { text: "Routine outpatient CT abdomen only", correct: false }
+            ],
+            feedback: "Resuscitate first; endoscopy is both diagnostic and therapeutic."
+          },
+          {
+            type: "dx",
+            label: "Diagnosis",
+            prompt: "Most likely source:",
+            multi: false,
+            options: [
+              { text: "Peptic ulcer bleed (NSAID + alcohol) — differentials: varices, Mallory-Weiss, malignancy", correct: true },
+              { text: "Lower GI bleed only", correct: false },
+              { text: "Epistaxis swallowed blood only", correct: false },
+              { text: "Factitious disorder", correct: false }
+            ],
+            feedback: "Rockall / Glasgow-Blatchford scores aid risk stratification."
+          },
+          {
+            type: "mx",
+            label: "Management",
+            prompt: "Management:",
+            multi: true,
+            options: [
+              { text: "Large-bore IV access ×2, fluid/blood resuscitation to targets", correct: true },
+              { text: "Restrictive transfusion threshold (usually Hb <70–80) unless cardiovascular disease", correct: true },
+              { text: "IV PPI after endoscopy (or pre if delay) per local protocol", correct: true },
+              { text: "Urgent endoscopy ± interventional radiology / surgery if unstable", correct: true },
+              { text: "Discharge home immediately", correct: false }
+            ],
+            feedback: "ABC first, then definitive haemostasis."
+          }
+        ]
+      },
+      {
+        id: 12,
+        title: "Acute Kidney Injury",
+        system: "Renal",
+        time: "8–10 min",
+        brief: "A 75-year-old man has rising creatinine and reduced urine output. Assess and manage AKI.",
+        scenario: "Mr. Frank O’Brien, 75. Admitted with community pneumonia 4 days ago. Now oliguric, creatinine risen from 90 to 280 µmol/L. On ACE inhibitor and NSAID for pain. On exam: dry mucosa, BP 100/60, no oedema, bladder not palpable, chest clearing.",
+        steps: [
+          {
+            type: "history",
+            label: "History",
+            prompt: "Key history for AKI:",
+            multi: true,
+            options: [
+              { text: "Fluid intake/output, vomiting, diarrhoea", correct: true },
+              { text: "Nephrotoxic drugs (ACEI, ARB, NSAID, aminoglycosides, contrast)", correct: true },
+              { text: "Obstructive symptoms (prostate, stones)", correct: true },
+              { text: "Infection, heart failure, recent surgery", correct: true },
+              { text: "Preferred newspaper", correct: false }
+            ],
+            feedback: "Pre-renal, intrinsic and post-renal causes must all be considered."
+          },
+          {
+            type: "exam",
+            label: "Examination",
+            prompt: "Examination:",
+            multi: true,
+            options: [
+              { text: "Volume status (JVP, skin turgor, oedema, mucous membranes)", correct: true },
+              { text: "Bladder palpation / residual volume", correct: true },
+              { text: "Rash, livedo, joint signs (intrinsic renal)", correct: true },
+              { text: "Heart and lung exam", correct: true },
+              { text: "Detailed ENT exam first", correct: false }
+            ],
+            feedback: "Volume assessment guides fluid management."
+          },
+          {
+            type: "ix",
+            label: "Investigations",
+            prompt: "Investigations:",
+            multi: true,
+            options: [
+              { text: "U&E, FBC, bicarbonate, calcium, phosphate", correct: true },
+              { text: "Urinalysis ± microscopy and culture", correct: true },
+              { text: "Bladder scan / renal ultrasound (exclude obstruction)", correct: true },
+              { text: "CK if rhabdomyolysis possible", correct: true },
+              { text: "Routine colonoscopy", correct: false }
+            ],
+            feedback: "Ultrasound is urgent if obstruction possible."
+          },
+          {
+            type: "dx",
+            label: "Diagnosis",
+            prompt: "Most likely cause:",
+            multi: false,
+            options: [
+              { text: "Pre-renal AKI (sepsis + nephrotoxins + relative hypovolaemia) progressing toward ATN", correct: true },
+              { text: "Post-renal obstruction only", correct: false },
+              { text: "Chronic kidney disease only (no acute rise)", correct: false },
+              { text: "Glomerulonephritis without urinary findings", correct: false }
+            ],
+            feedback: "Common triad in hospital: sepsis, drugs, hypovolaemia."
+          },
+          {
+            type: "mx",
+            label: "Management",
+            prompt: "Management:",
+            multi: true,
+            options: [
+              { text: "Stop nephrotoxins, treat sepsis, optimise volume carefully", correct: true },
+              { text: "Monitor fluid balance, daily weights, electrolytes", correct: true },
+              { text: "Relieve obstruction if present", correct: true },
+              { text: "Escalate to renal team if stage 3, hyperkalaemia, refractory overload or uraemic complications", correct: true },
+              { text: "High-dose diuretics for all AKI", correct: false }
+            ],
+            feedback: "Treat cause; supportive care; know indications for renal replacement."
+          }
+        ]
+      },
+      {
+        id: 13,
+        title: "Community-Acquired Pneumonia",
+        system: "Respiratory",
+        time: "8–10 min",
+        brief: "A 70-year-old woman has fever, cough and dyspnoea. Assess severity and treat.",
+        scenario: "Mrs. Joan Ellis, 70. 4-day history of productive cough (rusty sputum), fever, right-sided pleuritic pain, increasing dyspnoea. Ex-smoker. On exam: RR 28, SpO2 91% on air, temp 38.9°C, BP 110/70, HR 105, right basal crackles and dullness.",
+        steps: [
+          {
+            type: "history",
+            label: "History",
+            prompt: "History priorities:",
+            multi: true,
+            options: [
+              { text: "Cough, sputum, dyspnoea, chest pain, fever, confusion", correct: true },
+              { text: "Comorbidities, smoking, vaccination status, recent travel/hospitalisation", correct: true },
+              { text: "Aspiration risk, immunosuppression", correct: true },
+              { text: "Preferred holiday destination only", correct: false }
+            ],
+            feedback: "CURB-65 components and risk factors for resistant organisms."
+          },
+          {
+            type: "exam",
+            label: "Examination",
+            prompt: "Examination:",
+            multi: true,
+            options: [
+              { text: "Respiratory rate, SpO2, work of breathing", correct: true },
+              { text: "Chest expansion, percussion, auscultation", correct: true },
+              { text: "Mental status (confusion)", correct: true },
+              { text: "Signs of sepsis", correct: true },
+              { text: "Full joint exam", correct: false }
+            ],
+            feedback: "Severity assessment begins at the bedside."
+          },
+          {
+            type: "ix",
+            label: "Investigations",
+            prompt: "Investigations:",
+            multi: true,
+            options: [
+              { text: "CXR, FBC, U&E, CRP, LFT", correct: true },
+              { text: "Blood cultures if moderate–severe", correct: true },
+              { text: "Sputum culture if productive", correct: true },
+              { text: "ABG if hypoxic or tiring", correct: true },
+              { text: "Routine CT pulmonary angiogram first-line", correct: false }
+            ],
+            feedback: "CXR confirms diagnosis; bloods and cultures guide therapy."
+          },
+          {
+            type: "dx",
+            label: "Diagnosis",
+            prompt: "Diagnosis & severity:",
+            multi: false,
+            options: [
+              { text: "Community-acquired pneumonia — calculate CURB-65 (age, urea, RR, BP, confusion)", correct: true },
+              { text: "Simple viral upper respiratory infection", correct: false },
+              { text: "Pulmonary embolism only", correct: false },
+              { text: "Lung cancer presenting acutely", correct: false }
+            ],
+            feedback: "CURB-65 guides admission and antibiotic intensity."
+          },
+          {
+            type: "mx",
+            label: "Management",
+            prompt: "Management:",
+            multi: true,
+            options: [
+              { text: "Oxygen to target saturations", correct: true },
+              { text: "Prompt antibiotics per local CAP guidelines and severity", correct: true },
+              { text: "Fluid support, VTE prophylaxis, senior review if high CURB", correct: true },
+              { text: "Consider critical care if tiring or acidotic", correct: true },
+              { text: "No antibiotics needed", correct: false }
+            ],
+            feedback: "Time to first antibiotic matters in severe disease."
+          }
+        ]
+      },
+      {
+        id: 14,
+        title: "Sepsis / Pyelonephritis",
+        system: "Infectious Disease / Renal",
+        time: "8–10 min",
+        brief: "A 28-year-old woman has fever, flank pain and vomiting. Recognise sepsis and treat.",
+        scenario: "Ms. Aisha Khan, 28. 2 days of dysuria then high fever, right flank pain, nausea and vomiting. On exam: temp 39.2°C, HR 120, BP 95/55, RR 24, right renal angle tenderness. No peritonism. Pregnancy test negative.",
+        steps: [
+          {
+            type: "history",
+            label: "History",
+            prompt: "History:",
+            multi: true,
+            options: [
+              { text: "Urinary symptoms, flank pain, fever, rigors", correct: true },
+              { text: "Pregnancy possibility, recent instrumentation, stones", correct: true },
+              { text: "Immunosuppression, previous UTIs", correct: true },
+              { text: "Preferred perfume brand", correct: false }
+            ],
+            feedback: "Ascending infection and sepsis risk."
+          },
+          {
+            type: "exam",
+            label: "Examination",
+            prompt: "Examination:",
+            multi: true,
+            options: [
+              { text: "Vital signs – look for qSOFA / sepsis criteria", correct: true },
+              { text: "Renal angle tenderness, abdominal exam", correct: true },
+              { text: "Hydration and perfusion status", correct: true },
+              { text: "Exclude alternative abdominal pathology", correct: true },
+              { text: "Full neurological exam first", correct: false }
+            ],
+            feedback: "Sepsis recognition saves lives."
+          },
+          {
+            type: "ix",
+            label: "Investigations",
+            prompt: "Investigations:",
+            multi: true,
+            options: [
+              { text: "Urinalysis and culture", correct: true },
+              { text: "FBC, U&E, CRP, lactate, blood cultures", correct: true },
+              { text: "Pregnancy test", correct: true },
+              { text: "Consider imaging if obstructed or not improving", correct: true },
+              { text: "Routine colonoscopy", correct: false }
+            ],
+            feedback: "Source identification + severity markers."
+          },
+          {
+            type: "dx",
+            label: "Diagnosis",
+            prompt: "Diagnosis:",
+            multi: false,
+            options: [
+              { text: "Acute pyelonephritis with sepsis", correct: true },
+              { text: "Uncomplicated cystitis", correct: false },
+              { text: "Appendicitis only", correct: false },
+              { text: "Musculoskeletal back pain", correct: false }
+            ],
+            feedback: "Systemic features elevate from simple UTI to pyelonephritis/sepsis."
+          },
+          {
+            type: "mx",
+            label: "Management",
+            prompt: "Sepsis Six / management:",
+            multi: true,
+            options: [
+              { text: "Oxygen if needed, blood cultures, lactate, fluids, antibiotics within 1 hour, urine output monitoring", correct: true },
+              { text: "IV antibiotics covering typical urinary pathogens", correct: true },
+              { text: "Analgesia and anti-emetics", correct: true },
+              { text: "Senior review and possible critical care if refractory shock", correct: true },
+              { text: "Oral antibiotics and immediate discharge", correct: false }
+            ],
+            feedback: "Hour-1 bundle is the standard of care."
+          }
+        ]
+      },
+      {
+        id: 15,
+        title: "Acute Stroke",
+        system: "Neurology",
+        time: "8–10 min",
+        brief: "A 70-year-old man develops sudden right-sided weakness and speech difficulty. Act fast.",
+        scenario: "Mr. William Brooks, 70. Sudden onset right arm and leg weakness with expressive dysphasia 90 minutes ago. Known AF, not anticoagulated. On exam: NIHSS relevant deficits, BP 170/95, glucose normal, no seizure at onset.",
+        steps: [
+          {
+            type: "history",
+            label: "History",
+            prompt: "Critical history (often from witness):",
+            multi: true,
+            options: [
+              { text: "Exact time of onset (or last known well)", correct: true },
+              { text: "Nature of deficit, seizure, trauma, anticoagulation, recent surgery", correct: true },
+              { text: "Vascular risk factors", correct: true },
+              { text: "Preferred television programme", correct: false }
+            ],
+            feedback: "Time of onset determines thrombolysis / thrombectomy eligibility."
+          },
+          {
+            type: "exam",
+            label: "Examination",
+            prompt: "Examination:",
+            multi: true,
+            options: [
+              { text: "ABCDE, glucose", correct: true },
+              { text: "Focused neurological exam (NIHSS elements)", correct: true },
+              { text: "Cardiac exam (AF, murmur)", correct: true },
+              { text: "Exclude mimics (hypoglycaemia already checked)", correct: true },
+              { text: "Full abdominal exam first", correct: false }
+            ],
+            feedback: "Rapid structured assessment."
+          },
+          {
+            type: "ix",
+            label: "Investigations",
+            prompt: "Investigations:",
+            multi: true,
+            options: [
+              { text: "Urgent non-contrast CT head (± CT angiography)", correct: true },
+              { text: "Capillary glucose, FBC, coagulation, U&E", correct: true },
+              { text: "ECG", correct: true },
+              { text: "Swallow screen before oral intake", correct: true },
+              { text: "Routine outpatient MRI only", correct: false }
+            ],
+            feedback: "CT to exclude haemorrhage before reperfusion therapy."
+          },
+          {
+            type: "dx",
+            label: "Diagnosis",
+            prompt: "Diagnosis:",
+            multi: false,
+            options: [
+              { text: "Acute ischaemic stroke (likely cardio-embolic given AF) within thrombolysis window", correct: true },
+              { text: "Hemorrhagic stroke only (needs CT confirmation)", correct: false },
+              { text: "Todd’s paralysis after seizure", correct: false },
+              { text: "Functional neurological disorder", correct: false }
+            ],
+            feedback: "Time-critical diagnosis."
+          },
+          {
+            type: "mx",
+            label: "Management",
+            prompt: "Management:",
+            multi: true,
+            options: [
+              { text: "Activate stroke pathway / thrombolysis team immediately", correct: true },
+              { text: "Do not give aspirin until haemorrhage excluded", correct: true },
+              { text: "Supportive care, BP management per protocol, nil by mouth until swallow safe", correct: true },
+              { text: "Consider endovascular therapy if large-vessel occlusion", correct: true },
+              { text: "Home with aspirin without imaging", correct: false }
+            ],
+            feedback: "Door-to-needle time is a key quality metric."
+          }
+        ]
+      },
+      {
+        id: 16,
+        title: "Jaundice & Chronic Liver Disease",
+        system: "Gastroenterology / Hepatology",
+        time: "8–10 min",
+        brief: "A 55-year-old man presents with jaundice and ascites. Assess and manage.",
+        scenario: "Mr. Derek Collins, 55. Progressive jaundice, abdominal distension, ankle swelling. Long history of heavy alcohol use. On exam: jaundiced, spider naevi, gynaecomastia, ascites, small liver, splenomegaly, flapping tremor.",
+        steps: [
+          {
+            type: "history",
+            label: "History",
+            prompt: "History priorities:",
+            multi: true,
+            options: [
+              { text: "Alcohol history (quantity, duration), viral hepatitis risk, drugs", correct: true },
+              { text: "Previous decompensation, variceal bleed, encephalopathy", correct: true },
+              { text: "Weight loss, change in bowel habit, pruritus, pale stools, dark urine", correct: true },
+              { text: "Preferred football team", correct: false }
+            ],
+            feedback: "Aetiology and complications of cirrhosis."
+          },
+          {
+            type: "exam",
+            label: "Examination",
+            prompt: "Examination for chronic liver disease:",
+            multi: true,
+            options: [
+              { text: "Stigmata (spider naevi, palmar erythema, leuconychia, clubbing)", correct: true },
+              { text: "Ascites, hepatosplenomegaly, caput medusae", correct: true },
+              { text: "Hepatic encephalopathy (asterixis, confusion)", correct: true },
+              { text: "Signs of portal hypertension", correct: true },
+              { text: "Full ENT exam first", correct: false }
+            ],
+            feedback: "Classic OSCE station – list the stigmata."
+          },
+          {
+            type: "ix",
+            label: "Investigations",
+            prompt: "Investigations:",
+            multi: true,
+            options: [
+              { text: "LFT, albumin, INR/PT (synthetic function)", correct: true },
+              { text: "FBC (thrombocytopenia), U&E, viral serology, autoimmune screen as indicated", correct: true },
+              { text: "Abdominal ultrasound ± Doppler", correct: true },
+              { text: "Ascitic tap if ascites (SAAG, culture, cell count)", correct: true },
+              { text: "Routine colonoscopy first-line", correct: false }
+            ],
+            feedback: "Child-Pugh / MELD components and exclude reversible causes."
+          },
+          {
+            type: "dx",
+            label: "Diagnosis",
+            prompt: "Diagnosis:",
+            multi: false,
+            options: [
+              { text: "Decompensated alcohol-related cirrhosis with ascites and possible encephalopathy", correct: true },
+              { text: "Acute viral hepatitis only", correct: false },
+              { text: "Obstructive jaundice from gallstones only", correct: false },
+              { text: "Haemolysis", correct: false }
+            ],
+            feedback: "Clinical stigmata + history are highly suggestive."
+          },
+          {
+            type: "mx",
+            label: "Management",
+            prompt: "Management:",
+            multi: true,
+            options: [
+              { text: "Alcohol cessation support, nutrition, thiamine", correct: true },
+              { text: "Diuretics (spironolactone ± furosemide) for ascites, salt restriction", correct: true },
+              { text: "Lactulose if encephalopathic; treat precipitants", correct: true },
+              { text: "Screen for varices, HCC surveillance, consider transplant referral", correct: true },
+              { text: "Encourage continued heavy drinking", correct: false }
+            ],
+            feedback: "Multidisciplinary cirrhosis care."
+          }
+        ]
+      },
+      {
+        id: 17,
+        title: "Polyarthritis – Possible SLE",
+        system: "Rheumatology",
+        time: "8–10 min",
+        brief: "A 26-year-old woman has joint pains, rash and fatigue. Assess for connective tissue disease.",
+        scenario: "Ms. Priya Sharma, 26. 8 weeks of symmetrical small-joint pain and swelling, morning stiffness, malar rash worse in sun, oral ulcers, fatigue, hair loss. On exam: synovitis of MCPs and PIPs, malar rash, no deformity yet. Mild anaemia and lymphopenia on bloods.",
+        steps: [
+          {
+            type: "history",
+            label: "History",
+            prompt: "Key history for SLE:",
+            multi: true,
+            options: [
+              { text: "Joint symptoms (symmetry, morning stiffness, duration)", correct: true },
+              { text: "Photosensitive rash, oral/nasal ulcers, alopecia, serositis symptoms", correct: true },
+              { text: "Raynaud’s, neurological, renal, obstetric history", correct: true },
+              { text: "Family history of autoimmune disease", correct: true },
+              { text: "Favourite cinema genre", correct: false }
+            ],
+            feedback: "ACR/EULAR classification criteria domains."
+          },
+          {
+            type: "exam",
+            label: "Examination",
+            prompt: "Examination:",
+            multi: true,
+            options: [
+              { text: "Joint exam (synovitis, distribution)", correct: true },
+              { text: "Skin (malar, discoid, photosensitivity)", correct: true },
+              { text: "Oral ulcers, lymphadenopathy, alopecia", correct: true },
+              { text: "Cardiorespiratory (serositis), neurological screen", correct: true },
+              { text: "Detailed fundoscopy only", correct: false }
+            ],
+            feedback: "Multi-system examination is required."
+          },
+          {
+            type: "ix",
+            label: "Investigations",
+            prompt: "Investigations:",
+            multi: true,
+            options: [
+              { text: "FBC, U&E, LFT, CRP/ESR, urinalysis", correct: true },
+              { text: "ANA, anti-dsDNA, ENA, complement (C3/C4)", correct: true },
+              { text: "Antiphospholipid antibodies if indicated", correct: true },
+              { text: "CXR if respiratory symptoms", correct: true },
+              { text: "Immediate joint replacement", correct: false }
+            ],
+            feedback: "Serology + organ involvement assessment."
+          },
+          {
+            type: "dx",
+            label: "Diagnosis",
+            prompt: "Working diagnosis:",
+            multi: false,
+            options: [
+              { text: "Systemic lupus erythematosus (likely) — differentials: RA, mixed CTD, viral arthritis", correct: true },
+              { text: "Osteoarthritis", correct: false },
+              { text: "Gout only", correct: false },
+              { text: "Fibromyalgia alone", correct: false }
+            ],
+            feedback: "Young woman + multi-system features + cytopenias strongly suggest SLE."
+          },
+          {
+            type: "mx",
+            label: "Management",
+            prompt: "Management principles:",
+            multi: true,
+            options: [
+              { text: "Sun protection, NSAIDs/analgesia for joints", correct: true },
+              { text: "Hydroxychloroquine (cornerstone for most)", correct: true },
+              { text: "Corticosteroids / immunosuppression if organ-threatening", correct: true },
+              { text: "Rheumatology referral, education, pregnancy counselling", correct: true },
+              { text: "No further follow-up needed", correct: false }
+            ],
+            feedback: "Multidisciplinary long-term care."
+          }
+        ]
+      },
+      {
+        id: 18,
+        title: "Suspected Meningitis",
+        system: "Infectious Disease / Neurology",
+        time: "8–10 min",
+        brief: "A 22-year-old student has fever, headache and neck stiffness. Act immediately.",
+        scenario: "Mr. Luke Bennett, 22. 18 hours of severe headache, photophobia, fever, neck pain. Non-blanching petechial rash developing. On exam: temp 39°C, HR 115, BP 100/60, neck stiffness, GCS 14, petechiae on legs and trunk.",
+        steps: [
+          {
+            type: "history",
+            label: "History",
+            prompt: "History (rapid):",
+            multi: true,
+            options: [
+              { text: "Headache, fever, neck stiffness, photophobia, rash, altered consciousness", correct: true },
+              { text: "Contacts, travel, immunosuppression, recent antibiotics", correct: true },
+              { text: "Seizures, ear/sinus infection", correct: true },
+              { text: "Preferred pizza topping", correct: false }
+            ],
+            feedback: "Classic triad is not always complete; rash is a red flag."
+          },
+          {
+            type: "exam",
+            label: "Examination",
+            prompt: "Examination:",
+            multi: true,
+            options: [
+              { text: "ABCDE, GCS, vital signs", correct: true },
+              { text: "Meningism, rash (non-blanching)", correct: true },
+              { text: "Focal neurology, papilloedema (if time/safe)", correct: true },
+              { text: "Look for source (ears, throat, sinuses)", correct: true },
+              { text: "Full musculoskeletal survey first", correct: false }
+            ],
+            feedback: "Do not delay antibiotics for prolonged examination."
+          },
+          {
+            type: "ix",
+            label: "Investigations",
+            prompt: "Investigations:",
+            multi: true,
+            options: [
+              { text: "Blood cultures BEFORE antibiotics if possible without delay", correct: true },
+              { text: "FBC, U&E, CRP, coagulation, glucose, lactate", correct: true },
+              { text: "LP if safe (after CT if indicated by guidelines)", correct: true },
+              { text: "CT head before LP if focal signs, reduced GCS, etc.", correct: true },
+              { text: "Delay all treatment until LP results", correct: false }
+            ],
+            feedback: "Antibiotics must not be delayed by imaging or LP."
+          },
+          {
+            type: "dx",
+            label: "Diagnosis",
+            prompt: "Diagnosis:",
+            multi: false,
+            options: [
+              { text: "Bacterial meningitis / meningococcal sepsis until proven otherwise", correct: true },
+              { text: "Viral upper respiratory infection", correct: false },
+              { text: "Migraine", correct: false },
+              { text: "Tension headache", correct: false }
+            ],
+            feedback: "Treat empirically immediately."
+          },
+          {
+            type: "mx",
+            label: "Management",
+            prompt: "Immediate management:",
+            multi: true,
+            options: [
+              { text: "ABCDE, senior help, sepsis pathway", correct: true },
+              { text: "IV antibiotics (e.g. ceftriaxone) ± steroids per local protocol ASAP", correct: true },
+              { text: "Public health notification and contact prophylaxis if meningococcal", correct: true },
+              { text: "Supportive care, critical care if needed", correct: true },
+              { text: "Oral antibiotics and discharge", correct: false }
+            ],
+            feedback: "Minutes matter; protocolised care improves survival."
+          }
+        ]
+      },
+      {
+        id: 19,
+        title: "Palpitations – Atrial Fibrillation",
+        system: "Cardiology",
+        time: "8–10 min",
+        brief: "A 64-year-old woman has intermittent palpitations. Assess and manage new AF.",
+        scenario: "Mrs. Linda Cooper, 64. Episodes of rapid irregular heart beat for 3 months, lasting hours, associated with mild dyspnoea. No syncope. Hypertension, no previous stroke. On exam: HR 95 irregular, BP 145/85, no failure signs. ECG shows AF.",
+        steps: [
+          {
+            type: "history",
+            label: "History",
+            prompt: "History:",
+            multi: true,
+            options: [
+              { text: "Onset, frequency, duration, triggers, associated symptoms (chest pain, syncope, dyspnoea)", correct: true },
+              { text: "Alcohol, thyroid symptoms, caffeine, exercise", correct: true },
+              { text: "Stroke risk factors, bleeding risk", correct: true },
+              { text: "Preferred brand of coffee only", correct: false }
+            ],
+            feedback: "Rate vs rhythm control decision and anticoagulation risk."
+          },
+          {
+            type: "exam",
+            label: "Examination",
+            prompt: "Examination:",
+            multi: true,
+            options: [
+              { text: "Pulse rate and rhythm, BP", correct: true },
+              { text: "Signs of heart failure, murmurs, thyroid status", correct: true },
+              { text: "Neurological residuals if prior events", correct: true },
+              { text: "Full dermatology survey", correct: false }
+            ],
+            feedback: "Look for structural heart disease and thyrotoxicosis."
+          },
+          {
+            type: "ix",
+            label: "Investigations",
+            prompt: "Investigations:",
+            multi: true,
+            options: [
+              { text: "ECG (confirm AF)", correct: true },
+              { text: "Bloods: FBC, U&E, TFT, HbA1c, lipids", correct: true },
+              { text: "Echocardiogram", correct: true },
+              { text: "Consider ambulatory monitoring if paroxysmal", correct: true },
+              { text: "Routine colonoscopy", correct: false }
+            ],
+            feedback: "Exclude reversible causes and assess heart structure."
+          },
+          {
+            type: "dx",
+            label: "Diagnosis",
+            prompt: "Diagnosis:",
+            multi: false,
+            options: [
+              { text: "Atrial fibrillation (likely persistent or paroxysmal) — calculate CHA2DS2-VASc and HAS-BLED", correct: true },
+              { text: "Sinus tachycardia only", correct: false },
+              { text: "Complete heart block", correct: false },
+              { text: "Anxiety without arrhythmia", correct: false }
+            ],
+            feedback: "Stroke risk stratification is mandatory."
+          },
+          {
+            type: "mx",
+            label: "Management",
+            prompt: "Management:",
+            multi: true,
+            options: [
+              { text: "Rate control (beta-blocker or calcium-channel blocker) if needed", correct: true },
+              { text: "Anticoagulation if CHA2DS2-VASc indicates (discuss bleeding risk)", correct: true },
+              { text: "Lifestyle advice (alcohol, weight, sleep apnoea)", correct: true },
+              { text: "Cardiology follow-up; consider rhythm control / ablation in selected patients", correct: true },
+              { text: "No anticoagulation ever needed", correct: false }
+            ],
+            feedback: "Anticoagulation decision is the most important long-term intervention for many patients."
+          }
+        ]
+      },
+      {
+        id: 20,
+        title: "Unintentional Weight Loss",
+        system: "General / Oncology",
+        time: "8–10 min",
+        brief: "A 62-year-old man has lost 12 kg in 4 months. Investigate systematically.",
+        scenario: "Mr. Henry Clarke, 62. Unintentional weight loss of 12 kg over 4 months, reduced appetite, mild night sweats, new iron-deficiency anaemia. Ex-smoker 40 pack-years. On exam: cachectic, no palpable nodes, mild epigastric tenderness, no masses felt, PR normal.",
+        steps: [
+          {
+            type: "history",
+            label: "History",
+            prompt: "History for weight loss:",
+            multi: true,
+            options: [
+              { text: "Quantify weight loss, appetite, dysphagia, change in bowel habit, melaena", correct: true },
+              { text: "Night sweats, fever, cough, haemoptysis, urinary symptoms", correct: true },
+              { text: "Mood, thyroid symptoms, diabetes symptoms, medications", correct: true },
+              { text: "Smoking, alcohol, travel, sexual history as relevant", correct: true },
+              { text: "Preferred holiday destination only", correct: false }
+            ],
+            feedback: "Red-flag symptoms for malignancy and systemic disease."
+          },
+          {
+            type: "exam",
+            label: "Examination",
+            prompt: "Examination:",
+            multi: true,
+            options: [
+              { text: "General (cachexia, nodes, clubbing)", correct: true },
+              { text: "Thyroid, breast (if relevant), abdominal masses, PR", correct: true },
+              { text: "Respiratory and cardiovascular exam", correct: true },
+              { text: "Skin for rashes or pigmentation", correct: true },
+              { text: "Detailed orthopaedic exam only", correct: false }
+            ],
+            feedback: "Full systems examination looking for primary and metastatic disease."
+          },
+          {
+            type: "ix",
+            label: "Investigations",
+            prompt: "First-line investigations:",
+            multi: true,
+            options: [
+              { text: "FBC, film, haematinics, U&E, LFT, calcium, glucose, CRP, TFT", correct: true },
+              { text: "CXR, consider CT chest/abdomen/pelvis", correct: true },
+              { text: "Urgent upper and lower GI endoscopy given IDA + weight loss", correct: true },
+              { text: "Age-appropriate cancer screening and further directed tests", correct: true },
+              { text: "No investigations required", correct: false }
+            ],
+            feedback: "NICE NG12 suspected cancer pathway applies."
+          },
+          {
+            type: "dx",
+            label: "Diagnosis",
+            prompt: "Approach:",
+            multi: false,
+            options: [
+              { text: "Unintentional weight loss – high suspicion for occult malignancy (GI, lung) or systemic disease; urgent pathway referral", correct: true },
+              { text: "Normal aging", correct: false },
+              { text: "Dieting without further enquiry", correct: false },
+              { text: "Depression only without physical work-up", correct: false }
+            ],
+            feedback: "Never attribute significant weight loss to age or mood without investigation."
+          },
+          {
+            type: "mx",
+            label: "Management",
+            prompt: "Management:",
+            multi: true,
+            options: [
+              { text: "Urgent referral on suspected cancer pathway", correct: true },
+              { text: "Nutritional support while investigating", correct: true },
+              { text: "Treat reversible causes found", correct: true },
+              { text: "Safety-net and early follow-up of results", correct: true },
+              { text: "Reassure and discharge without tests", correct: false }
+            ],
+            feedback: "Timely diagnosis improves outcomes."
+          }
+        ]
+      }
+    ];
+
+    // ===================== FLASHCARDS DATA =====================
+    const flashcards = [
+      { cat: "cardio", q: "ACS – immediate management priorities?", a: "ABCDE + monitoring<br>Aspirin 300 mg<br>Analgesia (GTN ± morphine)<br>ECG within 10 min<br>Troponin + senior/cardiology activation" },
+      { cat: "cardio", q: "High-risk features in syncope?", a: "Exertional onset<br>Known structural heart disease / murmur<br>Family history of sudden death<br>Abnormal ECG<br>Injury during episode<br>Age >60 with cardiac history" },
+      { cat: "cardio", q: "CHA₂DS₂-VASc components?", a: "C – CHF (1)<br>H – Hypertension (1)<br>A₂ – Age ≥75 (2)<br>D – Diabetes (1)<br>S₂ – Prior Stroke/TIA/thromboembolism (2)<br>V – Vascular disease (1)<br>A – Age 65–74 (1)<br>Sc – Sex category female (1)" },
+      { cat: "cardio", q: "Signs of decompensated heart failure?", a: "Elevated JVP<br>Bilateral crackles / pleural effusions<br>S3 gallop<br>Peripheral oedema<br>Hepatomegaly / ascites<br>Tachycardia, low SpO₂" },
+      { cat: "resp", q: "CURB-65 score components?", a: "C – Confusion<br>U – Urea >7 mmol/L<br>R – Respiratory rate ≥30<br>B – BP <90 systolic or ≤60 diastolic<br>65 – Age ≥65<br>0–1 low, 2 moderate, ≥3 high severity" },
+      { cat: "resp", q: "Oxygen targets?", a: "Most patients: 94–98%<br>Risk of hypercapnic respiratory failure (COPD etc.): 88–92%<br>Always prescribe target range" },
+      { cat: "gi", q: "Glasgow-Blatchford vs Rockall?", a: "Glasgow-Blatchford: pre-endoscopy risk (need for intervention)<br>Rockall: post-endoscopy mortality risk<br>Both used in upper GI bleed pathways" },
+      { cat: "gi", q: "Stigmata of chronic liver disease?", a: "Spider naevi, palmar erythema<br>Leuconychia, clubbing<br>Gynaecomastia, loss of body hair<br>Ascites, caput medusae<br>Asterixis, jaundice, encephalopathy" },
+      { cat: "gi", q: "Acute pancreatitis – key investigations?", a: "Lipase (or amylase)<br>FBC, U&E, LFT, Ca, glucose, CRP<br>ABG if severe<br>Ultrasound (gallstones)<br>CT if diagnostic uncertainty or complications" },
+      { cat: "endo", q: "DKA diagnostic criteria?", a: "Ketonaemia ≥3 mmol/L (or significant ketonuria)<br>Blood glucose >11 mmol/L (or known diabetes)<br>Bicarbonate <15 mmol/L and/or venous pH <7.3" },
+      { cat: "endo", q: "Thyroid status examination sequence?", a: "Hands → pulse → eyes → neck (inspect, palpate, auscultate) → pretibial region → reflexes<br>Comment on goitre characteristics and eye signs" },
+      { cat: "endo", q: "Hyperthyroid symptoms & signs?", a: "Weight loss, heat intolerance, tremor, palpitations, anxiety<br>AF, lid lag, goitre with bruit, warm moist skin, hyper-reflexia" },
+      { cat: "neuro", q: "Thunderclap headache – first actions?", a: "ABCDE<br>Urgent non-contrast CT head<br>If CT negative and suspicion high → LP (≥12 h after onset) for xanthochromia<br>Neurosurgical referral if SAH confirmed" },
+      { cat: "neuro", q: "Stroke – time-critical points?", a: "Last known well time<br>Glucose check (mimic)<br>Urgent CT ± CTA<br>Thrombolysis window typically <4.5 h<br>Thrombectomy for large-vessel occlusion up to 24 h in selected cases" },
+      { cat: "neuro", q: "Meningism signs?", a: "Neck stiffness<br>Kernig’s sign<br>Brudzinski’s sign<br>Photophobia<br>+ systemic signs (fever, rash, altered GCS)" },
+      { cat: "renal", q: "AKI – pre-renal vs intrinsic vs post-renal?", a: "Pre-renal: hypovolaemia, sepsis, low effective volume<br>Intrinsic: ATN, glomerulonephritis, interstitial nephritis, vascular<br>Post-renal: obstruction (prostate, stones, tumour)" },
+      { cat: "renal", q: "Indications for urgent renal replacement?", a: "Refractory hyperkalaemia<br>Refractory fluid overload / pulmonary oedema<br>Severe metabolic acidosis<br>Uraemic complications (pericarditis, encephalopathy)<br>Certain toxin removals" },
+      { cat: "general", q: "WIPE opening?", a: "Wash hands<br>Introduce yourself (name + role)<br>confirm Patient identity & preferred name<br>Explain procedure / examination and obtain consent" },
+      { cat: "general", q: "SOCRATES pain history?", a: "Site<br>Onset<br>Character<br>Radiation<br>Associations<br>Time course / duration<br>Exacerbating / relieving factors<br>Severity" },
+      { cat: "general", q: "Sepsis Six (hour-1 bundle)?", a: "Oxygen (if needed)<br>Blood cultures<br>IV antibiotics<br>Fluid challenge<br>Lactate measurement<br>Urine output monitoring" },
+      { cat: "general", q: "Delirium – common precipitants?", a: "Infection (UTI, pneumonia)<br>Medications / withdrawal<br>Metabolic (Na, glucose, Ca)<br>Hypoxia, constipation, retention<br>Pain, sleep deprivation, sensory impairment" },
+      { cat: "general", q: "Iron-deficiency anaemia – who needs urgent GI investigation?", a: "Men and post-menopausal women with confirmed IDA<br>Any patient with IDA + red-flag symptoms (weight loss, bleeding, change in bowel habit)<br>Follow NICE NG12 pathways" },
+      { cat: "cardio", q: "Aortic stenosis – classic findings?", a: "Slow-rising pulse<br>Narrow pulse pressure<br>Ejection systolic murmur radiating to carotids<br>Soft S2<br>Heaving apex (if LVH)" },
+      { cat: "resp", q: "Pneumonia – common pathogens (CAP)?", a: "Streptococcus pneumoniae (most common)<br>Haemophilus influenzae<br>Atypicals: Mycoplasma, Legionella, Chlamydophila<br>Viruses (influenza, SARS-CoV-2 etc.)" },
+      { cat: "gi", q: "Upper GI bleed – initial resuscitation?", a: "Large-bore IV access ×2<br>Fluid / blood to haemodynamic targets<br>Restrictive transfusion (Hb <70–80 unless CVD)<br>Correct coagulopathy<br>Urgent endoscopy after stabilisation" },
+      { cat: "endo", q: "Hypertensive emergency vs urgency?", a: "Emergency = severe BP elevation + end-organ damage (brain, eye, heart, kidney)<br>Urgency = severe BP without acute end-organ damage<br>Emergency needs controlled IV reduction in monitored setting" },
+      { cat: "neuro", q: "GCS components?", a: "Eye opening (1–4)<br>Verbal response (1–5)<br>Motor response (1–6)<br>Total 3–15<br>Record each component separately" },
+      { cat: "renal", q: "Nephrotoxic drugs to stop in AKI?", a: "ACE inhibitors / ARBs<br>NSAIDs<br>Aminoglycosides<br>Diuretics (context-dependent)<br>Contrast agents (when possible)" },
+      { cat: "general", q: "Presenting findings in OSCE?", a: "Stand confidently<br>Summarise key positives first<br>Relevant negatives<br>Working diagnosis / differentials<br>Suggested investigations and management<br>Offer to answer questions" },
+      { cat: "cardio", q: "Heart failure – first-line drugs (HFrEF)?", a: "ACEi/ARNI + beta-blocker + MRA + SGLT2i<br>Loop diuretic for congestion<br>Device therapy in selected patients<br>Treat precipitants" },
+      { cat: "gi", q: "Causes of acute pancreatitis (I GET SMASHED)?", a: "Idiopathic<br>Gallstones<br>Ethanol<br>Trauma<br>Steroids<br>Mumps / malignancy<br>Autoimmune<br>Scorpion / spider<br>Hypertriglyceridaemia / hypercalcaemia<br>ERCP<br>Drugs" },
+      { cat: "endo", q: "Sick-day rules for T1DM?", a: "Never stop insulin<br>Check glucose & ketones frequently<br>Extra rapid-acting insulin if needed<br>Maintain hydration<br>Seek help if vomiting or rising ketones" },
+      { cat: "neuro", q: "SAH – classic history?", a: "Thunderclap headache (peak in seconds)<br>Worst ever<br>May have loss of consciousness, seizure, neck stiffness, vomiting<br>Sentinel headache in some" },
+      { cat: "general", q: "Red-flag chest pain features?", a: "Crushing / heavy character<br>Radiation to arm/jaw/back<br>Autonomic features (sweat, nausea)<br>Exertional or at rest with ACS pattern<br>Sudden tearing (dissection)<br>Pleuritic + hypoxia (PE/pneumothorax)" },
+      { cat: "resp", q: "When to consider NIV in respiratory failure?", a: "COPD exacerbation with acidosis (pH 7.25–7.35) after medical therapy<br>Cardiogenic pulmonary oedema<br>Selected neuromuscular / chest-wall disease<br>Contraindications: imminent arrest, vomiting, undrained pneumothorax, extreme agitation" },
+      { cat: "general", q: "Safety-netting – what to include?", a: "What to expect (normal course)<br>Warning symptoms that require urgent return<br>How and when to seek help<br>Follow-up arrangements<br>Written information when possible" }
+    ];
+
+    // ===================== STATE =====================
+    let currentCase = null;
+    let currentStep = 0;
+    let selectedOptions = new Set();
+    let completedCases = new Set(JSON.parse(sessionStorage.getItem('imOsceCompleted') || '[]'));
+    let flashFilter = 'all';
+
+    // Timer state (8-minute OSCE station)
+    const STATION_SECONDS = 8 * 60; // 480 seconds
+    let timerRemaining = STATION_SECONDS;
+    let timerInterval = null;
+    let timerExpired = false;
+
+    // ===================== TIMER =====================
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+    }
+
+    function updateTimerDisplay() {
+      const el = document.getElementById('osce-timer');
+      if (!el) return;
+      el.textContent = formatTime(timerRemaining);
+      el.classList.remove('ok', 'warn', 'urgent', 'critical', 'expired');
+
+      if (timerExpired || timerRemaining <= 0) {
+        el.classList.add('expired');
+        el.textContent = '00:00';
+      } else if (timerRemaining <= 60) {
+        // Last 1 minute – critical red
+        el.classList.add('critical');
+      } else if (timerRemaining <= 120) {
+        // Last 2 minutes – urgent orange
+        el.classList.add('urgent');
+      } else if (timerRemaining <= 180) {
+        // Last 3 minutes – warning gold/yellow
+        el.classList.add('warn');
+      } else {
+        // Plenty of time – green
+        el.classList.add('ok');
+      }
+    }
+
+    function startTimer() {
+      stopTimer();
+      timerRemaining = STATION_SECONDS;
+      timerExpired = false;
+      updateTimerDisplay();
+      timerInterval = setInterval(() => {
+        timerRemaining--;
+        if (timerRemaining <= 0) {
+          timerRemaining = 0;
+          timerExpired = true;
+          stopTimer();
+          updateTimerDisplay();
+          // Gentle end-of-time notice (does not force exit)
+          const fb = document.getElementById('feedback-box');
+          if (fb) {
+            fb.className = 'feedback-box show partial';
+            fb.innerHTML = '<strong>⏰ Time is up (8 minutes).</strong><br>In a real OSCE the station would end here. You may still finish the remaining steps for learning, then return to the case list.';
+            fb.style.display = 'block';
+          } else {
+            alert('Time is up (8 minutes). In a real OSCE the station would end here. You may still complete the remaining steps for learning.');
+          }
+        } else {
+          updateTimerDisplay();
+        }
+      }, 1000);
+    }
+
+    function stopTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
+
+    function leaveCase() {
+      stopTimer();
+      stopAllVoice();
+      showView('cases');
+    }
+
+    // ===================== NAVIGATION =====================
+    function showView(viewId) {
+      // Stop timer and voice when leaving the player
+      if (viewId !== 'player') {
+        stopTimer();
+        if (typeof stopAllVoice === 'function') stopAllVoice();
+      }
+
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById(viewId).classList.add('active');
+      document.querySelectorAll('.nav-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.view === viewId || (viewId === 'player' && b.dataset.view === 'cases'));
+      });
+      if (viewId === 'cases') renderCasesGrid();
+      if (viewId === 'flashcards') renderFlashcards();
+      if (viewId === 'progress') renderProgress();
+      if (viewId === 'home') document.getElementById('home-completed').textContent = completedCases.size;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => showView(btn.dataset.view));
+    });
+
+    // ===================== CASES GRID =====================
+    function renderCasesGrid() {
+      const grid = document.getElementById('cases-grid');
+      grid.innerHTML = cases.map(c => `
+        <div class="case-card ${completedCases.has(c.id) ? 'completed' : ''}" onclick="openCase(${c.id})">
+          <div class="case-num">Station ${c.id}</div>
+          <h3>${c.title}</h3>
+          <div class="case-meta">
+            <span class="tag">${c.system}</span>
+            <span class="tag">${c.time}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openCase(id) {
+      currentCase = cases.find(c => c.id === id);
+      currentStep = 0;
+      selectedOptions = new Set();
+      showView('player');
+      renderPlayer();
+      startTimer(); // 8-minute station clock starts when you enter the case
+    }
+
+    // ===================== VERBAL ENGINE (TTS + STT) =====================
+    let recognition = null;
+    let isListening = false;
+    let finalTranscript = '';
+
+    function initVoiceSupport() {
+      const note = document.getElementById('voice-support-note');
+      const ttsOk = 'speechSynthesis' in window;
+      const sttOk = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+      if (note) {
+        if (ttsOk && sttOk) note.textContent = 'Voice ready (Chrome/Edge recommended)';
+        else if (ttsOk) note.textContent = 'TTS only — STT limited in this browser';
+        else note.textContent = 'Voice API not supported in this browser';
+      }
+      if (sttOk && !recognition) {
+        const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SR();
+        recognition.continuous = false;
+        recognition.interimResults = true;
+        recognition.lang = 'en-GB';
+        recognition.maxAlternatives = 1;
+
+        recognition.onstart = () => {
+          isListening = true;
+          const btn = document.getElementById('btn-mic');
+          const status = document.getElementById('mic-status');
+          if (btn) btn.classList.add('listening');
+          if (status) { status.textContent = 'Listening… speak now'; status.classList.add('active'); }
+        };
+        recognition.onend = () => {
+          isListening = false;
+          const btn = document.getElementById('btn-mic');
+          const status = document.getElementById('mic-status');
+          if (btn) btn.classList.remove('listening');
+          if (status) { status.textContent = 'Mic ready'; status.classList.remove('active'); }
+        };
+        recognition.onerror = (e) => {
+          isListening = false;
+          const status = document.getElementById('mic-status');
+          if (status) {
+            status.classList.remove('active');
+            if (e.error === 'not-allowed') status.textContent = 'Mic permission denied';
+            else if (e.error === 'no-speech') status.textContent = 'No speech detected';
+            else status.textContent = 'Mic error: ' + e.error;
+          }
+          const btn = document.getElementById('btn-mic');
+          if (btn) btn.classList.remove('listening');
+        };
+        recognition.onresult = (event) => {
+          let interim = '';
+          let final = '';
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            const t = event.results[i][0].transcript;
+            if (event.results[i].isFinal) final += t;
+            else interim += t;
+          }
+          if (final) finalTranscript = (finalTranscript + ' ' + final).trim();
+          const panel = document.getElementById('transcript-panel');
+          const textEl = document.getElementById('transcript-text');
+          if (panel && textEl) {
+            panel.classList.add('show');
+            if (finalTranscript) {
+              textEl.classList.remove('interim');
+              textEl.textContent = finalTranscript + (interim ? ' ' + interim : '');
+            } else {
+              textEl.classList.add('interim');
+              textEl.textContent = interim || '…';
+            }
+          }
+          if (final) scoreSpokenAnswer(finalTranscript);
+        };
+      }
+    }
+
+    function speakText(text, onEnd) {
+      if (!('speechSynthesis' in window)) {
+        alert('Text-to-speech is not supported in this browser.');
+        return;
+      }
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.rate = 0.92;
+      u.pitch = 1;
+      u.volume = 1;
+      // Prefer a clear English voice if available
+      const voices = speechSynthesis.getVoices();
+      const preferred = voices.find(v => /en-GB|en-US|English/i.test(v.lang) && /Female|Male|Google|Microsoft|Samantha|Daniel/i.test(v.name))
+        || voices.find(v => /en/i.test(v.lang));
+      if (preferred) u.voice = preferred;
+
+      const speakBtns = document.querySelectorAll('.btn-speak');
+      speakBtns.forEach(b => b.classList.add('speaking'));
+      u.onend = () => {
+        speakBtns.forEach(b => b.classList.remove('speaking'));
+        if (onEnd) onEnd();
+      };
+      u.onerror = () => speakBtns.forEach(b => b.classList.remove('speaking'));
+      speechSynthesis.speak(u);
+    }
+
+    function speakBrief() {
+      if (!currentCase) return;
+      speakText('Station brief. ' + currentCase.brief);
+    }
+
+    function speakScenario() {
+      if (!currentCase) return;
+      speakText('Clinical scenario. ' + currentCase.scenario);
+    }
+
+    function speakQuestion() {
+      if (!currentCase) return;
+      const step = currentCase.steps[currentStep];
+      speakText(step.prompt);
+    }
+
+    function speakFeedback(text) {
+      speakText(text);
+    }
+
+    function stopAllVoice() {
+      if ('speechSynthesis' in window) speechSynthesis.cancel();
+      document.querySelectorAll('.btn-speak').forEach(b => b.classList.remove('speaking'));
+      if (recognition && isListening) {
+        try { recognition.stop(); } catch (e) {}
+      }
+      isListening = false;
+      const btn = document.getElementById('btn-mic');
+      const status = document.getElementById('mic-status');
+      if (btn) btn.classList.remove('listening');
+      if (status) { status.textContent = 'Mic ready'; status.classList.remove('active'); }
+    }
+
+    function toggleMic() {
+      if (!recognition) {
+        initVoiceSupport();
+        if (!recognition) {
+          alert('Speech recognition is not supported in this browser. Please use Chrome or Edge.');
+          return;
+        }
+      }
+      if (isListening) {
+        recognition.stop();
+        return;
+      }
+      // Stop any TTS so mic can hear the candidate
+      if ('speechSynthesis' in window) speechSynthesis.cancel();
+      document.querySelectorAll('.btn-speak').forEach(b => b.classList.remove('speaking'));
+      finalTranscript = '';
+      const textEl = document.getElementById('transcript-text');
+      const scoreEl = document.getElementById('voice-score');
+      if (textEl) { textEl.textContent = ''; textEl.classList.add('interim'); }
+      if (scoreEl) { scoreEl.className = 'voice-score'; scoreEl.innerHTML = ''; }
+      const panel = document.getElementById('transcript-panel');
+      if (panel) panel.classList.add('show');
+      try {
+        recognition.start();
+      } catch (e) {
+        // Already started
+      }
+    }
+
+    function extractKeywords(text) {
+      // Pull meaningful clinical terms (length > 3, not common stop words)
+      const stop = new Set(['that','this','with','from','have','been','were','will','would','could','should','about','which','their','there','what','when','your','they','them','then','than','also','into','only','other','some','such','more','most','over','after','before','between','under','again','further','once','here','both','each','few','more','own','same','than','too','very','just','because','while','during','through','against','above','below','where','these','those','being','having','doing','until']);
+      return text.toLowerCase()
+        .replace(/[^a-z0-9\s\-]/g, ' ')
+        .split(/\s+/)
+        .filter(w => w.length > 3 && !stop.has(w));
+    }
+
+    function scoreSpokenAnswer(transcript) {
+      if (!currentCase || !transcript) return;
+      const step = currentCase.steps[currentStep];
+      const correctTexts = step.options.filter(o => o.correct).map(o => o.text);
+      const allCorrectKw = new Set();
+      correctTexts.forEach(t => extractKeywords(t).forEach(k => allCorrectKw.add(k)));
+
+      const spokenKw = extractKeywords(transcript);
+      const matched = spokenKw.filter(k => allCorrectKw.has(k));
+      const uniqueMatched = [...new Set(matched)];
+      const coverage = allCorrectKw.size ? uniqueMatched.length / allCorrectKw.size : 0;
+
+      const scoreEl = document.getElementById('voice-score');
+      if (!scoreEl) return;
+
+      let cls = 'poor';
+      let msg = '';
+      if (coverage >= 0.45 || uniqueMatched.length >= 4) {
+        cls = 'good';
+        msg = `<strong>Strong verbal answer.</strong> You mentioned key terms: ${uniqueMatched.slice(0, 8).join(', ') || '—'}.`;
+      } else if (coverage >= 0.2 || uniqueMatched.length >= 2) {
+        cls = 'partial';
+        msg = `<strong>Partial coverage.</strong> Heard: ${uniqueMatched.join(', ') || 'few key terms'}. Try to include more of the high-yield points (see correct options after checking answers).`;
+      } else {
+        cls = 'poor';
+        msg = `<strong>Limited match.</strong> Few expected clinical terms detected. Review the model answers and try speaking the key points again.`;
+      }
+      scoreEl.className = `voice-score show ${cls}`;
+      scoreEl.innerHTML = msg + `<br><em style="font-size:0.82rem;">Keyword match is a guide only — structure and safety of your answer still matter in a real OSCE.</em>`;
+    }
+
+    // Load voices (some browsers need this)
+    if ('speechSynthesis' in window) {
+      speechSynthesis.getVoices();
+      speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+    }
+
+    // ===================== CASE PLAYER =====================
+    function renderPlayer() {
+      if (!currentCase) return;
+      stopAllVoice();
+      finalTranscript = '';
+      document.getElementById('player-num').textContent = `Case ${currentCase.id}`;
+      document.getElementById('player-title').textContent = currentCase.title;
+      document.getElementById('station-brief').innerHTML = `<strong>Station brief:</strong> ${currentCase.brief}`;
+
+      // Step indicator
+      const ind = document.getElementById('step-indicator');
+      ind.innerHTML = currentCase.steps.map((s, i) =>
+        `<span class="step-dot ${i === currentStep ? 'active' : ''} ${i < currentStep ? 'done' : ''}">${s.label}</span>`
+      ).join('');
+
+      document.getElementById('step-label').textContent = `Step ${currentStep + 1} of ${currentCase.steps.length}`;
+      document.getElementById('btn-prev').disabled = currentStep === 0;
+      document.getElementById('btn-next').textContent = currentStep === currentCase.steps.length - 1 ? 'Finish Case ✓' : 'Next →';
+
+      const step = currentCase.steps[currentStep];
+      const body = document.getElementById('case-body');
+      selectedOptions = new Set();
+
+      let html = `
+        <div class="scenario-box">
+          <strong>Clinical scenario</strong><br>${currentCase.scenario}
+        </div>
+        <p style="margin-bottom:1rem;font-weight:600;color:var(--navy);">${step.prompt}</p>
+        <div class="options-list" id="options-list">
+      `;
+
+      step.options.forEach((opt, idx) => {
+        html += `<button class="option-btn" data-idx="${idx}" onclick="toggleOption(${idx})">${opt.text}</button>`;
+      });
+
+      html += `</div>
+        <div style="margin-top:1.2rem;display:flex;flex-wrap:wrap;gap:0.6rem;align-items:center;">
+          <button class="btn btn-gold btn-sm" onclick="checkAnswers()">Check Answers</button>
+          <button class="btn btn-outline btn-sm" onclick="speakFeedback(document.getElementById('feedback-box')?.innerText || 'Please check answers first.')">🔊 Read feedback</button>
+        </div>
+        <div class="feedback-box" id="feedback-box"></div>
+
+        <div class="transcript-panel" id="transcript-panel">
+          <h4>Your spoken answer (transcript)</h4>
+          <div class="transcript-text interim" id="transcript-text">Press “Speak answer” and talk…</div>
+          <div class="voice-score" id="voice-score"></div>
+        </div>
+      `;
+
+      body.innerHTML = html;
+      initVoiceSupport();
+    }
+
+    function toggleOption(idx) {
+      const btn = document.querySelector(`.option-btn[data-idx="${idx}"]`);
+      if (btn.classList.contains('correct') || btn.classList.contains('incorrect')) return; // already checked
+
+      const step = currentCase.steps[currentStep];
+      if (!step.multi) {
+        selectedOptions.clear();
+        document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+      }
+      if (selectedOptions.has(idx)) {
+        selectedOptions.delete(idx);
+        btn.classList.remove('selected');
+      } else {
+        selectedOptions.add(idx);
+        btn.classList.add('selected');
+      }
+    }
+
+    function checkAnswers() {
+      const step = currentCase.steps[currentStep];
+      const feedback = document.getElementById('feedback-box');
+      let correctCount = 0;
+      let totalCorrect = step.options.filter(o => o.correct).length;
+
+      step.options.forEach((opt, idx) => {
+        const btn = document.querySelector(`.option-btn[data-idx="${idx}"]`);
+        btn.classList.remove('selected');
+        if (opt.correct) {
+          btn.classList.add('correct');
+          if (selectedOptions.has(idx)) correctCount++;
+        } else if (selectedOptions.has(idx)) {
+          btn.classList.add('incorrect');
+        }
+      });
+
+      let scoreClass = 'good';
+      let scoreText = 'Excellent selection.';
+      if (correctCount < totalCorrect || selectedOptions.size > totalCorrect) {
+        scoreClass = correctCount === 0 ? 'bad' : 'partial';
+        scoreText = correctCount === 0 ? 'Review the model answers carefully.' : 'Partially correct – note the highlighted answers.';
+      }
+
+      feedback.className = `feedback-box show ${scoreClass}`;
+      feedback.innerHTML = `<strong>${scoreText}</strong><br><br>${step.feedback}<br><br><em>Green = correct / high-yield. Red = not the priority in this station.</em>`;
+    }
+
+    function nextStep() {
+      if (currentStep < currentCase.steps.length - 1) {
+        currentStep++;
+        renderPlayer();
+      } else {
+        // Finish case
+        stopTimer();
+        completedCases.add(currentCase.id);
+        sessionStorage.setItem('imOsceCompleted', JSON.stringify([...completedCases]));
+        const timeUsed = STATION_SECONDS - timerRemaining;
+        const mins = Math.floor(timeUsed / 60);
+        const secs = timeUsed % 60;
+        alert(`Case ${currentCase.id} completed! Progress saved.\nTime used: ${mins}m ${secs}s (of 8:00).\n\nYou may now review another station or study the flashcards.`);
+        showView('cases');
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 0) {
+        currentStep--;
+        renderPlayer();
+      }
+    }
+
+    // ===================== FLASHCARDS =====================
+    function renderFlashcards() {
+      const grid = document.getElementById('flash-grid');
+      let list = flashFilter === 'all' ? flashcards : flashcards.filter(f => f.cat === flashFilter);
+      grid.innerHTML = list.map((f, i) => `
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="flash-inner">
+            <div class="flash-front">
+              <div class="category">${f.cat}</div>
+              <h4>${f.q}</h4>
+              <p style="margin-top:1rem;font-size:0.8rem;opacity:0.7;">Click to flip</p>
+            </div>
+            <div class="flash-back">
+              <h4>Answer</h4>
+              <p>${f.a}</p>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterFlash(cat) {
+      flashFilter = cat;
+      renderFlashcards();
+    }
+
+    function shuffleFlash() {
+      for (let i = flashcards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
+      }
+      renderFlashcards();
+    }
+
+    // ===================== PROGRESS =====================
+    function renderProgress() {
+      document.getElementById('progress-num').textContent = `${completedCases.size} / 20`;
+      document.getElementById('progress-fill').style.width = `${(completedCases.size / 20) * 100}%`;
+      const list = document.getElementById('progress-list');
+      list.innerHTML = cases.map(c => `
+        <div class="case-card ${completedCases.has(c.id) ? 'completed' : ''}" onclick="openCase(${c.id})">
+          <div class="case-num">Station ${c.id}</div>
+          <h3>${c.title}</h3>
+          <div class="case-meta"><span class="tag">${completedCases.has(c.id) ? 'Completed' : 'Not yet'}</span></div>
+        </div>
+      `).join('');
+    }
+
+    function resetProgress() {
+      if (confirm('Reset all progress?')) {
+        completedCases.clear();
+        sessionStorage.removeItem('imOsceCompleted');
+        renderProgress();
+        document.getElementById('home-completed').textContent = '0';
+      }
+    }
+
+    // ===================== INIT =====================
+    renderCasesGrid();
+    document.getElementById('home-completed').textContent = completedCases.size;
+  </script>
+</body>
+</html>
